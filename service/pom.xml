@@ -10,6 +10,11 @@
     <dependencies>
         <dependency>
             <groupId>ar.edu.itba.bd2</groupId>
+            <artifactId>persistence</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ar.edu.itba.bd2</groupId>
             <artifactId>interfaces</artifactId>
             <version>${parent.version}</version>
         </dependency>

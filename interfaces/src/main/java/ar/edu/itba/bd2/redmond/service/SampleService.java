@@ -1,6 +1,9 @@
 package ar.edu.itba.bd2.redmond.service;
 
+
+import ar.edu.itba.bd2.redmond.model.SampleModel;
+
 public interface SampleService {
 
-    void sampleServiceCall(int num);
+    SampleModel sampleServiceCall(int num);
 }

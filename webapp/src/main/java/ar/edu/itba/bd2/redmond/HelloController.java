@@ -20,7 +20,6 @@ public class HelloController {
 
     @GetMapping
     public String helloWorld() {
-        sampleService.sampleServiceCall(9);
-        return "Hello, World!";
+        return sampleService.sampleServiceCall(9).getName();
     }
 }

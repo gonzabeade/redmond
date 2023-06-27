@@ -13,6 +13,12 @@
     <artifactId>interfaces</artifactId>
     <packaging>jar</packaging>
 
-    <!-- Add required dependencies and configurations here -->
+    <dependencies>
+        <dependency>
+            <groupId>ar.edu.itba.bd2</groupId>
+            <artifactId>models</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>
