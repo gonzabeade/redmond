@@ -1,6 +1,6 @@
 package ar.edu.itba.bd2.redmond.persistence;
 
-import ar.edu.itba.bd2.redmond.service.TransactionEventDao;
+import ar.edu.itba.bd2.redmond.model.Transaction;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +13,7 @@ public class TransactionEventDaoImpl implements TransactionEventDao {
     }
 
     @Override
-    public void publishEvent(String event) {
-        kafkaTemplate.send("quickstart", event);
+    public void initializeTransaction(Transaction transaction) {
+        kafkaTemplate.send("quickstart", transaction.getTransactionId());
     }
 }

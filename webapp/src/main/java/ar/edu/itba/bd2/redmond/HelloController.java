@@ -1,6 +1,6 @@
 package ar.edu.itba.bd2.redmond;
 
-import ar.edu.itba.bd2.redmond.service.SampleService;
+import ar.edu.itba.bd2.redmond.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class HelloController {
 
-    private final SampleService sampleService;
+    private final UserService userService;
 
     @Autowired
-    public HelloController(SampleService sampleService) {
-        this.sampleService = sampleService;
+    public HelloController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping
     public String helloWorld() {
-        return sampleService.sampleServiceCall(9).getName();
+        return userService.registerUser("Gonzalo", "Gonzalo", "Gonzalo").getRedmondId();
     }
 }
