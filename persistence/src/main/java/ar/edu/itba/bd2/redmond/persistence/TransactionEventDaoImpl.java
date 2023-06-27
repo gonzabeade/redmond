@@ -6,14 +6,14 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class TransactionEventDaoImpl implements TransactionEventDao {
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, Transaction> kafkaTemplate;
 
-    public TransactionEventDaoImpl(KafkaTemplate<String, String> kafkaTemplate) {
+    public TransactionEventDaoImpl(KafkaTemplate<String, Transaction> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
     }
 
     @Override
     public void initializeTransaction(Transaction transaction) {
-        kafkaTemplate.send("quickstart", transaction.getTransactionId());
+        kafkaTemplate.send("quickstart", transaction);
     }
 }
