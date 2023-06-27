@@ -1,5 +1,6 @@
 package ar.edu.itba.bd2.redmond.persistence;
 
+import ar.edu.itba.bd2.redmond.model.MyEvent;
 import ar.edu.itba.bd2.redmond.model.SampleModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
