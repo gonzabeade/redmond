@@ -7,6 +7,17 @@
         <artifactId>redmond</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+    <dependencies>
+        <dependency>
+            <groupId>ar.edu.itba.bd2</groupId>
+            <artifactId>interfaces</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+    </dependencies>
 
     <modelVersion>4.0.0</modelVersion>
 
