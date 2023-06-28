@@ -7,9 +7,9 @@ import java.util.Optional;
 public interface UserService {
 
     User registerUser(String cbu, String cuil, String redmondId);
-    Optional<User> getUserByCbu(String cbu);
-    Optional<User> getUserByCuil(String cuil);
-    Optional<User> getUserByRedmondId(String redmondId);
+    User getUserByCbu(String cbu);
+    User getUserByCuil(String cuil);
+    User getUserByRedmondId(String redmondId);
 
 
 }

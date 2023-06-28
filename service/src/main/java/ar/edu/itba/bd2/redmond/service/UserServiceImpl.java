@@ -5,6 +5,7 @@ import ar.edu.itba.bd2.redmond.model.User;
 import ar.edu.itba.bd2.redmond.persistence.SampleDao;
 import ar.edu.itba.bd2.redmond.persistence.TransactionEventDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -29,17 +30,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getUserByCbu(String cbu) {
-        return Optional.empty();
+    @Cacheable("users::cbu")
+    public User getUserByCbu(String cbu) {
+        return new User("01010101", "23-349-23", "sagas.lack.thor");
     }
 
     @Override
-    public Optional<User> getUserByCuil(String cuil) {
-        return Optional.empty();
+    @Cacheable("users::cuil")
+    public User getUserByCuil(String cuil) {
+        return new User("01010101", "23-349-23", "sagas.lack.thor");
     }
 
     @Override
-    public Optional<User> getUserByRedmondId(String redmondId) {
-        return Optional.empty();
+    @Cacheable("users::redmondId")
+    public User getUserByRedmondId(String redmondId) {
+        return new User("01010101", "23-349-23", "sagas.lack.thor");
     }
 }

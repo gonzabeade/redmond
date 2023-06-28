@@ -6,6 +6,10 @@ public class User {
     private String cuil;
     private String redmondId;
 
+    public User() {
+        // Just for caching
+    }
+
     public User(String cbu, String cuil, String redmondId) {
         this.cbu = cbu;
         this.cuil = cuil;

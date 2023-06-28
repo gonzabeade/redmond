@@ -17,6 +17,10 @@ spring.kafka.topic=quickstart
 spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
 spring.kafka.producer.value-serializer=org.springframework.kafka.support.serializer.JsonSerializer
 
+# Redis
+spring.redis.host=localhost
+spring.redis.port=6379
+# spring.redis.password=your_password # If Redis requires authentication
 ```
 
 ## Run 
