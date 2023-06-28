@@ -20,6 +20,6 @@ public class HelloController {
 
     @GetMapping
     public String helloWorld() {
-        return userService.registerUser("Gonzalo", "Gonzalo", "Gonzalo").getRedmondId();
+        return userService.registerUser("HelloWorldTX", "123456789", "tierra.gaia.lemma").getRedmondId();
     }
 }
