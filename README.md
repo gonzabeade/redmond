@@ -6,9 +6,17 @@
 In the file: 
 
 ```properties
+# Postgres
 spring.datasource.url=jdbc:postgresql://localhost:5432/redmond_tx
 spring.datasource.username=uname
 spring.datasource.password=upass
+
+# Kafka
+spring.kafka.bootstrap-servers=localhost:9092
+spring.kafka.topic=quickstart
+spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
+spring.kafka.producer.value-serializer=org.springframework.kafka.support.serializer.JsonSerializer
+
 ```
 
 ## Run 
