@@ -23,8 +23,8 @@ services:
       - 'POSTGRES_DB=redmond_tx'
       - 'POSTGRES_PASSWORD=postgres'
       - 'POSTGRES_USER=postgres'
-#    ports:
-#      - '5432:5432'
+    ports:
+      - '5432:5432'
 
   redmond-redis:
     image: redis:latest
