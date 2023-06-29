@@ -19,7 +19,6 @@
       <module name="interfaces" options="-parameters" />
       <module name="models" options="-parameters" />
       <module name="persistence" options="-parameters" />
-      <module name="redmond" options="" />
       <module name="service" options="-parameters" />
       <module name="webapp" options="-parameters" />
     </option>

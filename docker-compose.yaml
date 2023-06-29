@@ -1,0 +1,61 @@
+version: '3'
+
+services:
+  redmond:
+    container_name: redmond
+    extends:
+      file: ./redmond/docker-compose.yml
+      service: redmond
+    volumes:
+      - './redmond:/app'
+    depends_on:
+      - redmond-postgres
+      - redmond-redis
+      - redmond-zookeeper
+      - redmond-broker
+      - bank-01
+  
+  redmond-postgres:
+    container_name: redmond-postgres
+    extends:
+      file: ./redmond/docker-compose.yml
+      service: redmond-postgres
+
+  redmond-redis:
+    container_name: redmond-redis
+    extends:
+      file: ./redmond/docker-compose.yml
+      service: redmond-redis
+  
+  redmond-zookeeper:
+    container_name: redmond-zookeeper
+    extends:
+      file: ./redmond/docker-compose.yml
+      service: redmond-zookeeper
+
+  redmond-broker:
+    container_name: redmond-broker
+    extends:
+      file: ./redmond/docker-compose.yml
+      service: redmond-broker
+    depends_on:
+      - redmond-zookeeper
+  
+  bank-01:
+    container_name: bank-01
+    extends:
+      file: ./bank/compose.yaml
+      service: bank_1_api
+    ports:
+      - '8081:8080'
+    volumes:
+      - './bank:/app'
+    depends_on:
+      - bank-01-postgres
+  
+  bank-01-postgres:
+    container_name: bank-01-postgres
+    extends:
+      file: ./bank/compose.yaml
+      service: bank_1_postgres
+      

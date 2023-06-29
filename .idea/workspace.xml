@@ -5,7 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="29ecd5c0-d3c5-4294-96e3-d7bd0920feac" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redmond/interfaces/src/main/java/ar/edu/itba/bd2/redmond/persistence/SampleDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/redmond/interfaces/src/main/java/ar/edu/itba/bd2/redmond/persistence/SampleDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redmond/interfaces/src/main/java/ar/edu/itba/bd2/redmond/persistence/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/redmond/interfaces/src/main/java/ar/edu/itba/bd2/redmond/persistence/UserDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redmond/interfaces/src/main/java/ar/edu/itba/bd2/redmond/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/redmond/interfaces/src/main/java/ar/edu/itba/bd2/redmond/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redmond/persistence/src/main/java/ar/edu/itba/bd2/redmond/persistence/SampleDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/redmond/persistence/src/main/java/ar/edu/itba/bd2/redmond/persistence/SampleDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redmond/persistence/src/main/java/ar/edu/itba/bd2/redmond/persistence/UserDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/redmond/persistence/src/main/java/ar/edu/itba/bd2/redmond/persistence/UserDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redmond/persistence/src/main/java/ar/edu/itba/bd2/redmond/persistence/config/PersistenceConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/redmond/persistence/src/main/java/ar/edu/itba/bd2/redmond/persistence/config/PersistenceConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redmond/persistence/src/main/resources/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/redmond/persistence/src/main/resources/schema.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redmond/service/src/main/java/ar/edu/itba/bd2/redmond/service/ServiceConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/redmond/service/src/main/java/ar/edu/itba/bd2/redmond/service/ServiceConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redmond/service/src/main/java/ar/edu/itba/bd2/redmond/service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/redmond/service/src/main/java/ar/edu/itba/bd2/redmond/service/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redmond/service/src/main/java/ar/edu/itba/bd2/redmond/service/config/ServiceConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/redmond/service/src/main/java/ar/edu/itba/bd2/redmond/service/config/ServiceConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redmond/webapp/src/main/java/ar/edu/itba/bd2/redmond/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/redmond/webapp/src/main/java/ar/edu/itba/bd2/redmond/HelloController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redmond/webapp/src/main/java/ar/edu/itba/bd2/redmond/YourApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/redmond/webapp/src/main/java/ar/edu/itba/bd2/redmond/YourApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/service/src/main/java/ar/edu/itba/bd2/redmond/service/ServiceConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/service/src/main/java/ar/edu/itba/bd2/redmond/service/ServiceConfiguration.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +65,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "jdk.selected.JAVA_MODULE": "corretto-17",
-    "last_opened_file_path": "/home/gonza/ITBA/8C/bd2/itba-bd2",
+    "last_opened_file_path": "/home/gonza/ITBA/8C/bd2/itba-bd2/redmond",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -158,6 +170,7 @@
       <workItem from="1687871780407" duration="33440000" />
       <workItem from="1688064020103" duration="181000" />
       <workItem from="1688066779348" duration="246000" />
+      <workItem from="1688067132480" duration="18000" />
     </task>
     <servers />
   </component>

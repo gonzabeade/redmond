@@ -1,12 +1,9 @@
 version: '3'
 
-networks:
-  default:
-    driver: bridge
-
 services:
-  api:
+  redmond-api:
     image: 'maven:3.9.3-eclipse-temurin-11'
+    container_name: redmond-api
     working_dir: /app
     command: bash -c "mvn clean package && java -jar ./webapp/target/webapp-1.0-SNAPSHOT.jar"
     ports:
@@ -14,46 +11,46 @@ services:
     volumes:
       - '.:/app'
     depends_on:
-      - postgres
-      - redis
-      - zookeeper
-      - broker
+      - redmond-postgres
+      - redmond-redis
+      - redmond-zookeeper
+      - redmond-broker
 
-  postgres:
-    container_name: postgres
+  redmond-postgres:
     image: 'postgres:latest'
+    container_name: redmond-postgres
     environment:
       - 'POSTGRES_DB=redmond_tx'
       - 'POSTGRES_PASSWORD=postgres'
       - 'POSTGRES_USER=postgres'
-    ports:
-      - '5432:5432'
+#    ports:
+#      - '5432:5432'
 
-  redis:
+  redmond-redis:
     image: redis:latest
-    container_name: redis
+    container_name: redmond-redis
     ports:
       - "6379:6379"
 
-  zookeeper:
+  redmond-zookeeper:
     image: confluentinc/cp-zookeeper:7.3.2
-    container_name: zookeeper
+    container_name: redmond-zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
 
-  broker:
+  redmond-broker:
     image: confluentinc/cp-kafka:7.3.2
-    container_name: broker
+    container_name: redmond-broker
     ports:
       - "9092:9092"
     depends_on:
-      - zookeeper
+      - redmond-zookeeper
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_ZOOKEEPER_CONNECT: 'redmond-zookeeper:2181'
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://broker:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://redmond-broker:9092,PLAINTEXT_INTERNAL://redmond-broker:29092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
