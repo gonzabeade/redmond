@@ -2,14 +2,11 @@ version: '3'
 
 services:
   redmond:
-    image: 'maven:3.9.3-eclipse-temurin-11'
+    build: .
     container_name: redmond
     working_dir: /app
-    command: bash -c "mvn clean package && java -jar ./webapp/target/webapp-1.0-SNAPSHOT.jar"
     ports:
       - '8080:8080'
-    volumes:
-      - '.:/app'
     depends_on:
       - redmond-postgres
       - redmond-redis

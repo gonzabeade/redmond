@@ -4,8 +4,6 @@ services:
     extends:
       file: ./redmond/docker-compose.yml
       service: redmond
-    volumes:
-      - './redmond:/app'
     depends_on:
       - redmond-postgres
       - redmond-redis
