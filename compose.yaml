@@ -6,10 +6,10 @@ services:
   api:
     container_name: api
     extends:
-      file: ./redmond_api/docker-compose.yml
+      file: ./redmond/docker-compose.yml
       service: api
     volumes:
-      - './redmond_api:/app'
+      - './redmond:/app'
     depends_on:
       - postgres
       - redis
@@ -20,25 +20,25 @@ services:
   postgres:
     container_name: postgres
     extends:
-      file: ./redmond_api/docker-compose.yml
+      file: ./redmond/docker-compose.yml
       service: postgres
 
   redis:
     container_name: redis
     extends:
-      file: ./redmond_api/docker-compose.yml
+      file: ./redmond/docker-compose.yml
       service: redis
   
   zookeeper:
     container_name: zookeeper
     extends:
-      file: ./redmond_api/docker-compose.yml
+      file: ./redmond/docker-compose.yml
       service: zookeeper
 
   broker:
     container_name: broker
     extends:
-      file: ./redmond_api/docker-compose.yml
+      file: ./redmond/docker-compose.yml
       service: broker
     depends_on:
       - zookeeper
@@ -46,18 +46,18 @@ services:
   bank_1_api:
     container_name: bank_1_api
     extends:
-      file: ./bank_api/compose.yaml
+      file: ./bank/compose.yaml
       service: bank_1_api
     ports:
       - '8081:8080'
     volumes:
-      - './bank_api:/app'
+      - './bank:/app'
     depends_on:
       - bank_1_postgres
   
   bank_1_postgres:
     container_name: bank_1_postgres
     extends:
-      file: ./bank_api/compose.yaml
+      file: ./bank/compose.yaml
       service: bank_1_postgres
       
