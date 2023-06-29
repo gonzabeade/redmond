@@ -1,0 +1,28 @@
+services:
+  api:
+    container_name: api
+    image: 'eclipse-temurin:17-jdk'
+    working_dir: '/app'
+    command: bash -c "./gradlew assemble && java -jar ./build/libs/BankAPI-0.0.1-SNAPSHOT.jar"
+    ports:
+      - '8081:8080'
+    depends_on:
+      - postgres
+    volumes:
+      - '.:/app'
+  postgres:
+    container_name: postgres
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=bank1db'
+      - 'POSTGRES_PASSWORD=postgres'
+      - 'POSTGRES_USER=postgres'
+
+#  mongodb:
+#    image: 'mongo:latest'
+#    environment:
+#      - 'MONGO_INITDB_DATABASE=bank2db'
+#      - 'MONGO_INITDB_ROOT_PASSWORD=mongo'
+#      - 'MONGO_INITDB_ROOT_USERNAME=mongo'
+#    ports:
+#      - '27017:27017'
