@@ -17,7 +17,7 @@ public class UserDaoImpl implements UserDao {
 
     private static final RowMapper<User> USER_ROW_MAPPER =
             (rs, rowNum) -> new User(
-                    rs.getString("id"),
+                    rs.getString("redmondId"),
                     rs.getString("cuil"),
                     rs.getString("cbu")
             );
