@@ -1,4 +1,4 @@
-package ar.edu.itba.bd2.redmond.service;
+package ar.edu.itba.bd2.redmond.service.config;
 
 import ar.edu.itba.bd2.redmond.model.User;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
