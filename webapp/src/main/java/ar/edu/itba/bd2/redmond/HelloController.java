@@ -21,6 +21,6 @@ public class HelloController {
     @GetMapping
     public String helloWorld() {
         userService.getUserByCbu("messi");
-        return userService.registerUser("HelloWorldTX", "123456789", "tierra.gaia.lemma").getRedmondId();
+        return userService.registerUser("mirasol.papaya", "HelloWorldTX", "123456789", "tierra.gaia.lemma").getRedmondId();
     }
 }
