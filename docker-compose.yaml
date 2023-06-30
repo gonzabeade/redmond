@@ -1,13 +1,9 @@
-version: '3'
-
 services:
   redmond:
     container_name: redmond
     extends:
       file: ./redmond/docker-compose.yml
       service: redmond
-    volumes:
-      - './redmond:/app'
     depends_on:
       - redmond-postgres
       - redmond-redis
@@ -44,18 +40,16 @@ services:
   bank-01:
     container_name: bank-01
     extends:
-      file: ./bank/compose.yaml
-      service: bank_1_api
+      file: ./bank/docker-compose.yaml
+      service: bank-01-api
     ports:
       - '8081:8080'
-    volumes:
-      - './bank:/app'
     depends_on:
       - bank-01-postgres
   
   bank-01-postgres:
     container_name: bank-01-postgres
     extends:
-      file: ./bank/compose.yaml
-      service: bank_1_postgres
+      file: ./bank/docker-compose.yaml
+      service: bank-01-postgres
       
