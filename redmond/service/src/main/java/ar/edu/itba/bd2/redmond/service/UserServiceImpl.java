@@ -1,20 +1,27 @@
 package ar.edu.itba.bd2.redmond.service;
 
+import ar.edu.itba.bd2.redmond.model.Transaction;
 import ar.edu.itba.bd2.redmond.model.User;
+import ar.edu.itba.bd2.redmond.persistence.LogDao;
 import ar.edu.itba.bd2.redmond.persistence.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     final private UserDao userDao;
+    final private LogDao logDao;
+
 
     @Autowired
-    public UserServiceImpl(UserDao userDao) {
+    public UserServiceImpl(UserDao userDao, LogDao logDao) {
         this.userDao = userDao;
+        this.logDao = logDao;
     }
 
     @Override
@@ -23,8 +30,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Cacheable("users::cbu")
+//    @Cacheable("users::cbu")
     public Optional<User> getUserByCbu(String cbu) {
+        logDao.logTransactionInit(new Transaction("pepe", "mili", new BigDecimal(23)));
         return userDao.getUserByCbu(cbu);
     }
 

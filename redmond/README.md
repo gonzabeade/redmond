@@ -27,4 +27,5 @@ spring.redis.port=6379
 `export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 && mvn clean install && java -jar /home/gonza/ITBA/8C/bd2/itba-bd2/webapp/target/webapp-1.0-SNAPSHOT.jar`
 
 ## Docker-compose 
-`docker-compose up --remove-orphans`
+` docker-compose --file docker-compose-dev.yml up` en develop
+` docker-compose up` en produccion
