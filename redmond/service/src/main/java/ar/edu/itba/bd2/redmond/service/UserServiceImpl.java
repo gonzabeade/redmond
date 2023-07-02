@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-//    @Cacheable("users::cbu")
+    @Cacheable("users::cbu")
     public Optional<User> getUserByCbu(String cbu) {
         logDao.logTransactionInit(new Transaction("pepe", "mili", new BigDecimal(23)));
         return userDao.getUserByCbu(cbu);
