@@ -1,9 +1,12 @@
 package ar.edu.itba.bd2.redmond;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+@OpenAPIDefinition(servers = @Server(url = "/", description = "Local server"))
 @SpringBootApplication
 @EnableMongoRepositories
 public class YourApplication {
