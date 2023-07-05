@@ -11,7 +11,5 @@ public interface UserService {
     Optional<User> getUserByRedmondId(String redmondId);
     Optional<User> getUserByRedmondIdWithBalance(String redmondId);
     Optional<User> getUserByCuil(String cuil);
-
-
-
+    boolean isLoginValid(String redmondId, String password);
 }

@@ -70,7 +70,6 @@ public class TransactionDaoImpl implements TransactionDao {
     @Override
     public Optional<Transaction> findById(long id) {
         String sql = "SELECT * FROM transactions WHERE id = ?";
-        Transaction t = jdbcTemplate.queryForObject(sql, TRANSACTION_ROW_MAPPER, id);
-        return Optional.ofNullable(t);
+        return jdbcTemplate.query(sql, TRANSACTION_ROW_MAPPER, id).stream().findFirst();
     }
 }

@@ -7,6 +7,7 @@ import ar.edu.itba.bd2.redmond.persistence.LogDao;
 import ar.edu.itba.bd2.redmond.persistence.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,11 +20,14 @@ public class UserServiceImpl implements UserService {
 
     private final BankService bankService;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public UserServiceImpl(UserDao userDao, LogDao logDao, BankService bankService) {
+    public UserServiceImpl(UserDao userDao, LogDao logDao, BankService bankService, PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
         this.logDao = logDao;
         this.bankService = bankService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -31,7 +35,16 @@ public class UserServiceImpl implements UserService {
         BankAccount account = bankService.findAccount(cbu).orElseThrow(InvalidBankAccountException::new);
         if(!cuil.equals(account.getCuil())) throw new InvalidBankAccountException();
 
-        return userDao.registerUser(redmondId, cbu, cuil, password, account.getBank());
+        return userDao.registerUser(redmondId, cbu, cuil, passwordEncoder.encode(password), account.getBank());
+    }
+
+    @Override
+    public boolean isLoginValid(String redmondId, String password) {
+        Optional<User> maybeUser = getUserByRedmondId(redmondId);
+        if(maybeUser.isEmpty()) return false;
+        User user = maybeUser.get();
+
+        return passwordEncoder.matches(password, user.getPassword());
     }
 
     @Override
@@ -50,15 +63,11 @@ public class UserServiceImpl implements UserService {
     @Override
     @Cacheable("users::redmondId")
     public Optional<User> getUserByRedmondId(String redmondId) {
-        //TODO: only return user data if the logged user is the same as the requested user
-
         return userDao.getUserByRedmondId(redmondId);
     }
 
     @Override
     public Optional<User> getUserByRedmondIdWithBalance(String redmondId) {
-        //TODO: only return user data if the logged user is the same as the requested user
-
         Optional<User> maybeUser = getUserByRedmondId(redmondId);
         if(maybeUser.isEmpty()) return Optional.empty();
         User user = maybeUser.get();

@@ -59,21 +59,18 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Optional<User> getUserByCbu(String cbu) {
         String sql = "SELECT * FROM users WHERE cbu = ?";
-        User user = jdbcTemplate.queryForObject(sql, USER_ROW_MAPPER, cbu);
-        return Optional.ofNullable(user);
+        return jdbcTemplate.query(sql, USER_ROW_MAPPER, cbu).stream().findFirst();
     }
 
     @Override
     public Optional<User> getUserByRedmondId(String redmondId) {
         String sql = "SELECT * FROM users WHERE redmondId = ?";
-        User user = jdbcTemplate.queryForObject(sql, USER_ROW_MAPPER, redmondId);
-        return Optional.ofNullable(user);
+        return jdbcTemplate.query(sql, USER_ROW_MAPPER, redmondId).stream().findFirst();
     }
 
     @Override
     public Optional<User> getUserByCuil(String cuil) {
         String sql = "SELECT * FROM users WHERE cuil = ?";
-        User user = jdbcTemplate.queryForObject(sql, USER_ROW_MAPPER, cuil);
-        return Optional.ofNullable(user);
+        return jdbcTemplate.query(sql, USER_ROW_MAPPER, cuil).stream().findFirst();
     }
 }
