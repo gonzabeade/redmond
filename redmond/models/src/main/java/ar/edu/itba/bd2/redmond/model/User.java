@@ -1,19 +1,24 @@
 package ar.edu.itba.bd2.redmond.model;
 
-public class User {
+import ar.edu.itba.bd2.redmond.model.enums.Bank;
 
+public class User {
+    private String redmondId;
+    private String password;
     private String cbu;
     private String cuil;
-    private String redmondId;
+    private Bank bank;
 
     public User() {
         // Just for caching
     }
 
-    public User(String cbu, String cuil, String redmondId) {
+    public User(String cbu, String cuil, String redmondId, String password, Bank bank) {
         this.cbu = cbu;
         this.cuil = cuil;
         this.redmondId = redmondId;
+        this.password = password;
+        this.bank = bank;
     }
 
     public String getCbu() {
@@ -38,5 +43,21 @@ public class User {
 
     public void setRedmondId(String redmondId) {
         this.redmondId = redmondId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Bank getBank() {
+        return bank;
+    }
+
+    public void setBank(Bank bank) {
+        this.bank = bank;
     }
 }

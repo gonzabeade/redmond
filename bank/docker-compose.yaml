@@ -1,9 +1,9 @@
 services:
-  bank-01-api:
-    container_name: bank-01-api
+  bank-01:
+    container_name: bank-01
     build: .
     ports:
-      - '8081:8080'
+      - '8081:80'
     depends_on:
       - bank-01-postgres
       

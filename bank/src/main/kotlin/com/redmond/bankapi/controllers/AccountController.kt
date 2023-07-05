@@ -16,7 +16,7 @@ import java.math.BigInteger
 
 @RestController
 @RequestMapping("/accounts")
-class AccountController {
+class   AccountController {
     @Autowired lateinit var accountService: AccountService
 
     @Operation(summary = "Get all accounts")
@@ -24,7 +24,7 @@ class AccountController {
         ApiResponse(responseCode = "200", description = "Accounts found"),
         ApiResponse(responseCode = "204", description = "No accounts found")
     ])
-    @GetMapping("/")
+    @GetMapping
     fun getAccounts(
             @RequestParam(defaultValue = "1") page: Int,
             @RequestParam(defaultValue = "10") size: Int
@@ -51,7 +51,7 @@ class AccountController {
         ApiResponse(responseCode = "400", description = "Invalid request")
     ])
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/")
+    @PostMapping
     fun postAccount(@Valid @RequestBody form: PostAccountForm) =
             accountService.create(form.cbu!!, form.cuil!!)
 }
