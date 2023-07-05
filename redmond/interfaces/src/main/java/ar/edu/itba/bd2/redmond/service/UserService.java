@@ -9,6 +9,7 @@ public interface UserService {
     User registerUser(String redmondId, String cbu, String cuil, String password);
     Optional<User> getUserByCbu(String cbu);
     Optional<User> getUserByRedmondId(String redmondId);
+    Optional<User> getUserByRedmondIdWithBalance(String redmondId);
     Optional<User> getUserByCuil(String cuil);
 
 

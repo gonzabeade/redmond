@@ -30,7 +30,7 @@ class TransactionController {
         ApiResponse(responseCode = "400", description = "Invalid request")
     ])
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/")
+    @PostMapping
     fun postTransaction(@Valid @RequestBody form: PostTransactionForm) =
             transactionService.startTransaction(form.from, form.to, form.desc, form.amount!!)
 

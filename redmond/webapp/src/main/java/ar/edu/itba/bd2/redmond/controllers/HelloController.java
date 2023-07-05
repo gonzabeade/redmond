@@ -1,4 +1,4 @@
-package ar.edu.itba.bd2.redmond;
+package ar.edu.itba.bd2.redmond.controllers;
 
 import ar.edu.itba.bd2.redmond.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

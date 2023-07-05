@@ -25,7 +25,7 @@ public class MongoLog {
         log.source = tx.getSource();
         log.destination = tx.getDestination();
         log.amount = tx.getAmount();
-        log.transactionId = tx.getTransactionId();
+        log.transactionId = String.valueOf(tx.getTransactionId());
         log.type = type;
         return log;
     }

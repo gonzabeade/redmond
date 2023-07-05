@@ -41,9 +41,9 @@ services:
     container_name: bank-01
     extends:
       file: ./bank/docker-compose.yaml
-      service: bank-01-api
+      service: bank-01
     ports:
-      - '8081:8080'
+      - '8081:80'
     depends_on:
       - bank-01-postgres
   
@@ -52,4 +52,13 @@ services:
     extends:
       file: ./bank/docker-compose.yaml
       service: bank-01-postgres
+
+  
+  redmond-mongo:
+    container_name: redmond-mongo
+    extends:
+      file: ./redmond/docker-compose.yml
+      service: redmond-mongo
+    ports:
+      - "27017:27017"
       
