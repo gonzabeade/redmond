@@ -11,12 +11,12 @@
         <dependency>
             <groupId>ar.edu.itba.bd2</groupId>
             <artifactId>models</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>ar.edu.itba.bd2</groupId>
             <artifactId>interfaces</artifactId>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>

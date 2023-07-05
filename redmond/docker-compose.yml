@@ -12,6 +12,7 @@ services:
       - redmond-redis
       - redmond-zookeeper
       - redmond-broker
+      - redmond-neo4j
 
   redmond-postgres:
     image: 'postgres:latest'
@@ -57,3 +58,15 @@ services:
     container_name: redmond-mongo
     ports:
       - "27017:27017"
+
+  redmond-neo4j:
+    image: neo4j:latest
+    container_name: redmond-neo4j
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      NEO4J_AUTH: neo4j/new_password
+    volumes:
+      - ./data:/data
+      - ./logs:/logs
