@@ -8,8 +8,8 @@ services:
       - bank-01-postgres
       
   bank-01-postgres:
-    container_name: bank-01-postgres
     image: 'postgres:latest'
+    container_name: bank-01-postgres
     environment:
       - 'POSTGRES_DB=bank1db'
       - 'POSTGRES_PASSWORD=postgres'
