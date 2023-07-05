@@ -41,9 +41,20 @@ public class BankServiceImpl implements BankService {
 
     @Override
     public Optional<BankAccount> findAccount(String cbu) {
-        for(BankApiDao client : clients.values()) {
-            Optional<BankAccount> account = client.findAccount(cbu);
-            if(account.isPresent()) return account;
+        for(Map.Entry<Bank,BankApiDao> entry : clients.entrySet()) {
+            Bank bank = entry.getKey();
+            BankApiDao client = entry.getValue();
+
+            Optional<BankAccount> maybeAccount = client.findAccount(cbu);
+            if(maybeAccount.isPresent()) {
+                final BankAccount account = maybeAccount.get();
+                return Optional.of(new BankAccount(
+                        account.getCbu(),
+                        account.getCuil(),
+                        account.getBalance(),
+                        bank
+                ));
+            }
         }
         return Optional.empty();
     }

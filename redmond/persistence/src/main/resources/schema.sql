@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS users (
      redmondId CHAR(20) PRIMARY KEY NOT NULL UNIQUE,
-     cuil CHAR(12) NOT NULL UNIQUE,
+     cuil CHAR(11) NOT NULL,
      cbu CHAR(22) NOT NULL UNIQUE,
      password VARCHAR(128) NOT NULL,
      bank CHAR(6) NOT NULL

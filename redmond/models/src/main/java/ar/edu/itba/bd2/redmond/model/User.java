@@ -2,12 +2,15 @@ package ar.edu.itba.bd2.redmond.model;
 
 import ar.edu.itba.bd2.redmond.model.enums.Bank;
 
+import java.math.BigDecimal;
+
 public class User {
     private String redmondId;
     private String password;
     private String cbu;
     private String cuil;
     private Bank bank;
+    private BigDecimal balance;
 
     public User() {
         // Just for caching
@@ -59,5 +62,13 @@ public class User {
 
     public void setBank(Bank bank) {
         this.bank = bank;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 }

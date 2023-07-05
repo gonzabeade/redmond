@@ -1,6 +1,7 @@
 package ar.edu.itba.bd2.redmond.dto;
 
 import ar.edu.itba.bd2.redmond.model.Transaction;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.math.BigDecimal;
 
