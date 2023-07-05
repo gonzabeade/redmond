@@ -1,5 +1,4 @@
-docker-compose-dev.yml
 .idea
-webapp/src/main/resources/application.dev.properties
 webapp/src/main/resources/application.properties
-
+data
+logs
