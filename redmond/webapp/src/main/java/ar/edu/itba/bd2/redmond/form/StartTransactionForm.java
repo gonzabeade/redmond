@@ -6,23 +6,12 @@ import java.math.BigDecimal;
 
 public class StartTransactionForm {
     @NotBlank
-    private String source;
-
-    @NotBlank
     private String destination;
 
     private String description;
 
     @DecimalMin("0.01")
     private BigDecimal amount;
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
 
     public String getDestination() {
         return destination;

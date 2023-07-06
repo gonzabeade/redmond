@@ -5,8 +5,11 @@ import ar.edu.itba.bd2.redmond.dto.JwtDto;
 import ar.edu.itba.bd2.redmond.form.LoginForm;
 import ar.edu.itba.bd2.redmond.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+@Tag(name = "Users")
 @RestController
 @RequestMapping("/login")
 public class LoginController {
@@ -31,7 +35,7 @@ public class LoginController {
     @Operation(summary = "Get JWT refresh token")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
-            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(hidden = true))),
     })
     @PostMapping
     public ResponseEntity<JwtDto> login(@Valid @RequestBody LoginForm form) {

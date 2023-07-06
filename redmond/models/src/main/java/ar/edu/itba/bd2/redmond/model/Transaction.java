@@ -22,14 +22,15 @@ public class Transaction {
             BigDecimal amount,
             String description,
             String debitTransactionId,
-            String creditTransactionId
+            String creditTransactionId,
+            TransactionStatus status
     ) {
         this.transactionId = transactionId;
         this.source = source;
         this.destination = destination;
         this.amount = amount;
         this.description = description;
-        this.status = TransactionStatus.PENDING;
+        this.status = status;
         this.debitTransactionId = debitTransactionId;
         this.creditTransactionId = creditTransactionId;
     }

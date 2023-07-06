@@ -13,5 +13,6 @@ CREATE TABLE IF NOT EXISTS transactions(
     amount NUMERIC(18,2) NOT NULL,
     description VARCHAR(255),
     debit_transaction_id VARCHAR(100),
-    credit_transaction_id VARCHAR(100)
+    credit_transaction_id VARCHAR(100),
+    status VARCHAR(20) NOT NULL
 );

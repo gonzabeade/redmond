@@ -6,12 +6,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.math.BigDecimal;
 
 public class TransactionDto {
-    private String id;
-    private String source;
-    private String destination;
-    private BigDecimal amount;
-    private String description;
-    private String status;
+    private final String id;
+    private final String source;
+    private final String destination;
+    private final BigDecimal amount;
+    private final String description;
+    private final String status;
 
     public TransactionDto(Transaction t) {
         this.id = String.valueOf(t.getTransactionId());
@@ -40,5 +40,9 @@ public class TransactionDto {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }

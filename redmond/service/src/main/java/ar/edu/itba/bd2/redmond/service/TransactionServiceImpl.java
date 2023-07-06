@@ -2,10 +2,12 @@ package ar.edu.itba.bd2.redmond.service;
 
 import ar.edu.itba.bd2.redmond.model.Transaction;
 import ar.edu.itba.bd2.redmond.model.User;
+import ar.edu.itba.bd2.redmond.model.enums.TransactionStatus;
 import ar.edu.itba.bd2.redmond.model.events.CreditTransactionEvent;
 import ar.edu.itba.bd2.redmond.model.events.DebitTransactionEvent;
 import ar.edu.itba.bd2.redmond.model.events.InitTransactionEvent;
 import ar.edu.itba.bd2.redmond.model.events.PanicTransactionEvent;
+import ar.edu.itba.bd2.redmond.model.exceptions.InsufficientFundsException;
 import ar.edu.itba.bd2.redmond.model.exceptions.UserNotFoundException;
 import ar.edu.itba.bd2.redmond.persistence.TransactionDao;
 import ar.edu.itba.bd2.redmond.persistence.TransactionEventDao;
@@ -46,9 +48,11 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public Transaction startTransaction(String source, String destination, BigDecimal amount, String description) {
-        //Validate users exist
-        userService.getUserByRedmondId(source).orElseThrow(UserNotFoundException::new);
-        userService.getUserByRedmondId(destination).orElseThrow(UserNotFoundException::new);
+        User from = userService.getUserByRedmondIdWithBalance(source).orElseThrow(UserNotFoundException::new);
+        User to = userService.getUserByRedmondId(destination).orElseThrow(UserNotFoundException::new);
+
+        if(from.getBalance().compareTo(amount) < 0)
+            throw new InsufficientFundsException();
 
         Transaction transaction = transactionDao.create(
                 source,
@@ -67,7 +71,7 @@ public class TransactionServiceImpl implements TransactionService {
         User from = userService.getUserByRedmondId(t.getSource()).orElseThrow(IllegalStateException::new);
 
         try {
-            String bankTransactionId = bankService.debit(from, t.getDescription(), t.getAmount());
+            String bankTransactionId = bankService.debit(from, "Redmond: Transaction to " + t.getDescription(), t.getAmount());
             Transaction updated = transactionDao.updateDebitTransactionId(t.getTransactionId(), bankTransactionId);
 
             transactionEventDao.debitTransactionEvent(updated);
@@ -83,7 +87,7 @@ public class TransactionServiceImpl implements TransactionService {
         User to = userService.getUserByRedmondId(t.getDestination()).orElseThrow(IllegalStateException::new);
 
         try {
-            String bankTransactionId = bankService.credit(to, t.getDescription(), t.getAmount());
+            String bankTransactionId = bankService.credit(to, "Redmond: Transaction from " + t.getDescription(), t.getAmount());
             Transaction updated = transactionDao.updateCreditTransactionId(t.getTransactionId(), bankTransactionId);
 
             transactionEventDao.creditTransactionEvent(updated);
@@ -102,6 +106,8 @@ public class TransactionServiceImpl implements TransactionService {
         try {
             bankService.commitTransaction(from.getBank(), t.getDebitTransactionId());
             bankService.commitTransaction(to.getBank(), t.getCreditTransactionId());
+
+            t = transactionDao.updateStatus(t.getTransactionId(), TransactionStatus.APPROVED);
 
             transactionEventDao.commitTransactionEvent(t);
         } catch (Exception ex) {
@@ -122,6 +128,8 @@ public class TransactionServiceImpl implements TransactionService {
 
             if(t.getDebitTransactionId() != null)
                 bankService.rollbackTransaction(from.getBank(), t.getDebitTransactionId());
+
+            t = transactionDao.updateStatus(t.getTransactionId(), TransactionStatus.REJECTED);
 
             transactionEventDao.rollbackTransactionEvent(t);
         } catch (Exception ex) {

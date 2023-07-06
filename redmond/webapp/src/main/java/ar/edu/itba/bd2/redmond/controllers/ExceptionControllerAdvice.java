@@ -31,7 +31,8 @@ public class ExceptionControllerAdvice {
     }
 
     @ExceptionHandler({
-            InvalidBankAccountException.class
+            InvalidBankAccountException.class,
+            InsufficientFundsException.class
     })
     public ResponseEntity<Map<String,String>> handle400Exception(Exception ex) {
         Map<String,String> body = new HashMap<>();

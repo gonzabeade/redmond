@@ -5,8 +5,11 @@ import com.redmond.bankapi.forms.PatchAccountForm
 import com.redmond.bankapi.forms.PostAccountForm
 import com.redmond.bankapi.services.AccountService
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
+import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -14,15 +17,16 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.math.BigInteger
 
+@Tag(name = "Accounts")
 @RestController
 @RequestMapping("/accounts")
-class   AccountController {
+class AccountController {
     @Autowired lateinit var accountService: AccountService
 
     @Operation(summary = "Get all accounts")
     @ApiResponses(value = [
         ApiResponse(responseCode = "200", description = "Accounts found"),
-        ApiResponse(responseCode = "204", description = "No accounts found")
+        ApiResponse(responseCode = "204", description = "No accounts found", content = [Content(schema = Schema(hidden = true))])
     ])
     @GetMapping
     fun getAccounts(
@@ -40,7 +44,7 @@ class   AccountController {
     @Operation(summary = "Get account")
     @ApiResponses(value = [
         ApiResponse(responseCode = "200", description = "Account found"),
-        ApiResponse(responseCode = "404", description = "Account not found")
+        ApiResponse(responseCode = "404", description = "Account not found", content = [Content(schema = Schema(hidden = true))])
     ])
     @GetMapping("/{cbu}")
     fun getAccount(@PathVariable cbu: BigInteger) = accountService.getByCbu(cbu)
@@ -48,7 +52,7 @@ class   AccountController {
     @Operation(summary = "Create account")
     @ApiResponses(value = [
         ApiResponse(responseCode = "201", description = "Account created"),
-        ApiResponse(responseCode = "400", description = "Invalid request")
+        ApiResponse(responseCode = "400", description = "Invalid request", content = [Content(schema = Schema(hidden = true))])
     ])
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping

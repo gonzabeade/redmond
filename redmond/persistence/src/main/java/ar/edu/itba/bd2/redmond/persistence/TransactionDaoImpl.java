@@ -22,12 +22,13 @@ public class TransactionDaoImpl implements TransactionDao {
     private static final RowMapper<Transaction> TRANSACTION_ROW_MAPPER =
             (rs, rowNum) -> new Transaction(
                     rs.getLong("id"),
-                    rs.getString("source"),
-                    rs.getString("destination"),
+                    rs.getString("source").trim(),
+                    rs.getString("destination").trim(),
                     rs.getBigDecimal("amount"),
                     rs.getString("description"),
                     rs.getString("debit_transaction_id"),
-                    rs.getString("credit_transaction_id")
+                    rs.getString("credit_transaction_id"),
+                    TransactionStatus.fromString(rs.getString("status"))
             );
 
     @Autowired
@@ -45,8 +46,9 @@ public class TransactionDaoImpl implements TransactionDao {
         params.put("destination", destination);
         params.put("amount", amount);
         params.put("description", description);
+        params.put("status", TransactionStatus.PENDING.name());
         long id = jdbcInsert.executeAndReturnKey(params).longValue();
-        return new Transaction(id, source, destination, amount, description, null, null);
+        return new Transaction(id, source, destination, amount, description, null, null, TransactionStatus.PENDING);
     }
 
     @Override

@@ -53,7 +53,7 @@ public class UserDaoImpl implements UserDao {
         params.put("bank", bank.toString());
         jdbcInsert.execute(params);
 
-        return new User(redmondId, cuil, cbu, password, bank);
+        return new User(cbu, cuil, redmondId, password, bank);
     }
 
     @Override
