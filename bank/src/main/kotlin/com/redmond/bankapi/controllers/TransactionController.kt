@@ -1,5 +1,6 @@
 package com.redmond.bankapi.controllers
 
+import com.redmond.bankapi.dto.TransactionDto
 import com.redmond.bankapi.forms.PatchTransactionForm
 import com.redmond.bankapi.forms.PostTransactionForm
 import com.redmond.bankapi.services.TransactionService
@@ -22,7 +23,7 @@ class TransactionController {
         ApiResponse(responseCode = "404", description = "Transaction not found")
     ])
     @GetMapping("/{id}")
-    fun getTransaction(@PathVariable id: Long) = transactionService.getTransaction(id)
+    fun getTransaction(@PathVariable id: Long) = TransactionDto(transactionService.getTransaction(id))
 
     @Operation(summary = "Start transaction")
     @ApiResponses(value = [
@@ -31,8 +32,9 @@ class TransactionController {
     ])
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    fun postTransaction(@Valid @RequestBody form: PostTransactionForm) =
-            transactionService.startTransaction(form.from, form.to, form.desc, form.amount!!)
+    fun postTransaction(@Valid @RequestBody form: PostTransactionForm) = TransactionDto(
+        transactionService.startTransaction(form.from, form.to, form.desc, form.amount!!)
+    )
 
     @Operation(summary = "Update transaction status")
     @ApiResponses(value = [
@@ -43,5 +45,5 @@ class TransactionController {
     fun patchTransaction(
             @PathVariable id: Long,
             @Valid @RequestBody form: PatchTransactionForm
-    ) = transactionService.updateTransactionStatus(id, form.status!!)
+    ) = TransactionDto(transactionService.updateTransactionStatus(id, form.status!!))
 }
