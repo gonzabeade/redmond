@@ -51,7 +51,7 @@ public class MoneyFlowDaoImpl implements MoneyFlowDao {
         // Save the sender, receiver, and the transaction relationship to the graph
         neo4jOperations.save(sourceNode);
         neo4jOperations.save(destinationNode);
-        neo4jOperations.save(transactionRelationship);
+//        neo4jOperations.save(transactionRelationship);
     }
 
 }

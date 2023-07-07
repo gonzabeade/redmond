@@ -33,19 +33,19 @@ public class HelloWorldController {
                 TransactionStatus.APPROVED
         );
 
-//        Transaction tx2 = new Transaction(
-//                1234,
-//                "gonza",
-//                "agus",
-//                BigDecimal.ONE,
-//                "Drogas",
-//                "",
-//                "",
-//                TransactionStatus.APPROVED
-//        );
+        Transaction tx2 = new Transaction(
+                1234,
+                "gonza",
+                "agus",
+                BigDecimal.ONE,
+                "Drogas",
+                "",
+                "",
+                TransactionStatus.APPROVED
+        );
 
         moneyFlowService.addTransactionToGraph(tx1);
-//        moneyFlowService.addTransactionToGraph(tx2);
+        moneyFlowService.addTransactionToGraph(tx2);
 
         return "Hello, World!";
     }
