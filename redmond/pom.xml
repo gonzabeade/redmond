@@ -24,6 +24,8 @@
         <java.version>1.11</java.version>
         <org.postgresql.version>42.2.5</org.postgresql.version>
         <org.springdoc.version>1.7.0</org.springdoc.version>
+        <io.jsonwebtoken.version>0.9.1</io.jsonwebtoken.version>
+
     </properties>
 
     <dependencyManagement>
@@ -68,14 +70,14 @@
                 <version>${org.springframework.boot.version}</version>
             </dependency>
             <dependency>
-                <groupId>io.jsonwebtoken</groupId>
-                <artifactId>jjwt</artifactId>
-                <version>0.9.1</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-neo4j</artifactId>
+                <version>${org.springframework.boot.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.neo4j</groupId>
-                <artifactId>neo4j-ogm-http-driver</artifactId>
-                <version>3.2.19</version>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${io.jsonwebtoken.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

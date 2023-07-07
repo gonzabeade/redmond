@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class MoneyFlowDaoImpl implements MoneyFlowDao {
 
-    // TODO - Integrate Neo4J
     private final Neo4jOperations neo4jOperations;
 
     public MoneyFlowDaoImpl(Neo4jOperations neo4jOperations) {
@@ -20,6 +19,7 @@ public class MoneyFlowDaoImpl implements MoneyFlowDao {
     @Override
     @Transactional
     public void addTransactionToGraph(Transaction transaction) {
+
         // Create nodes for the sender and receiver
         TransactionNode sourceNode = new TransactionNode(transaction.getSource());
         TransactionNode destinationNode = new TransactionNode(transaction.getDestination());
