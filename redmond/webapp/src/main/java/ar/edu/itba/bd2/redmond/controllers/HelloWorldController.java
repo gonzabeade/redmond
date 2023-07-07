@@ -22,17 +22,17 @@ public class HelloWorldController {
 
     @RequestMapping("/hello")
     public String helloWorld() {
-//        Transaction tx1 = new Transaction(
-//                1234,
-//                "mili",
-//                "gonza",
-//                BigDecimal.ONE,
-//                "Entradas de Taylor",
-//                "",
-//                "",
-//                TransactionStatus.APPROVED
-//        );
-//
+        Transaction tx1 = new Transaction(
+                1234,
+                "mili",
+                "gonza",
+                BigDecimal.ONE,
+                "Entradas de Taylor",
+                "",
+                "",
+                TransactionStatus.APPROVED
+        );
+
 //        Transaction tx2 = new Transaction(
 //                1234,
 //                "gonza",
@@ -43,8 +43,8 @@ public class HelloWorldController {
 //                "",
 //                TransactionStatus.APPROVED
 //        );
-//
-//        moneyFlowService.addTransactionToGraph(tx1);
+
+        moneyFlowService.addTransactionToGraph(tx1);
 //        moneyFlowService.addTransactionToGraph(tx2);
 
         return "Hello, World!";

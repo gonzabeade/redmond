@@ -5,26 +5,24 @@ import org.springframework.data.neo4j.core.schema.*;
 import java.math.BigDecimal;
 
 @RelationshipProperties
-public class Relationship {
+public class TransactionRelationship {
     @Id
     @GeneratedValue
     private Long id;
 
-    @TargetNode
     private TransactionNode startNode;
 
     @TargetNode
     private TransactionNode endNode;
-
     private String type;
 
     // Add additional properties related to the relationship
     private BigDecimal amount;
 
-    public Relationship() {
+    public TransactionRelationship() {
     }
 
-    public Relationship(String type) {
+    public TransactionRelationship(String type) {
         this.type = type;
     }
 

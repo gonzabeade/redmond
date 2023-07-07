@@ -1,12 +1,14 @@
 package ar.edu.itba.bd2.redmond.model;
 
 import org.springframework.data.neo4j.core.schema.*;
+
+import java.util.HashSet;
+import java.util.Set;
+
 @Node
 public class TransactionNode {
-    @Id
-    @GeneratedValue
-    private Long id;
 
+    @Id
     private String name;
 
     public TransactionNode() {
@@ -16,19 +18,18 @@ public class TransactionNode {
         this.name = name;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Relationship(type = "TRANSACTION")
+    private Set<TransactionRelationship> transactionTransactionRelationships = new HashSet<>();
+
+    public void addTransactionRelationship(TransactionRelationship transactionRelationship) {
+        transactionTransactionRelationships.add(transactionRelationship);
     }
 }
