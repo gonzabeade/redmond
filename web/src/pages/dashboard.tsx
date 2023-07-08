@@ -79,7 +79,7 @@ export default function Dashboard() {
       <Paper withBorder shadow="md" p={30} radius="md">
         <Text size={20}>Redmond ID: {user.redmondId}</Text>
         <Text size={24}>Balance</Text>
-        <Title>$ {user.balance.toPrecision(3)}</Title>
+        <Title>$ {user.balance.toFixed(2)}</Title>
         <Group mt={20} className={classes.buttonRow}>
           <Link to="/transfer">
             <Button size="md"><MdSend size={22} /> <Text ml={5}>Transfer</Text></Button>

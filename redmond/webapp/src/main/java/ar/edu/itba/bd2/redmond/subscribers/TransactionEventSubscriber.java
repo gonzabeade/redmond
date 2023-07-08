@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 @KafkaListener(topics = "transactions", groupId = "your-consumer-group")
 public class TransactionEventSubscriber {
-    private static final Logger logger = LoggerFactory.getLogger(YetAnotherSubscriber.class);
+    private static final Logger logger = LoggerFactory.getLogger(TransactionEventSubscriber.class);
 
     private final TransactionService transactionService;
 
