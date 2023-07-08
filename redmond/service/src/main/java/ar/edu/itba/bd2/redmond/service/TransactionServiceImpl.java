@@ -118,11 +118,16 @@ public class TransactionServiceImpl implements TransactionService {
             bankService.commitTransaction(to.getBank(), t.getCreditTransactionId());
 
             t = transactionDao.updateStatus(t.getTransactionId(), TransactionStatus.APPROVED);
-            moneyFlowDao.addTransactionToGraph(t);
             transactionEventDao.commitTransactionEvent(t);
         } catch (Exception ex) {
             LOGGER.info("Error while committing transaction", ex);
             transactionEventDao.panicTransactionEvent(t);
+        }
+
+        try {
+            moneyFlowDao.addTransactionToGraph(t);
+        } catch (Exception ex) {
+            LOGGER.warn("Error commiting to graph", ex);
         }
     }
 
