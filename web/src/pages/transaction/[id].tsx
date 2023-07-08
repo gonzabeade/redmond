@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { TransactionData } from "../../hooks/api/postTransactions";
 import { useParams } from "../../router";
 import { useGetTransactionById } from "../../hooks/api/getTransactionById";
+import PageLoader from "../../components/pageLoader";
 
 const useStyles = createStyles((_theme) => ({
   container: {
@@ -32,7 +33,7 @@ export default function TransactionById() {
     });
   }, []);
 
-  if(!transaction) return null;
+  if(!transaction) return <PageLoader/>;
 
   return (
     <Container size={"xs"} className={classes.container} >

@@ -8,6 +8,7 @@ import { useNavigate } from "../router";
 import { Link } from "react-router-dom";
 import { TransactionData } from "../hooks/api/postTransactions";
 import { useGetTransactions } from "../hooks/api/getTransactions";
+import PageLoader from "../components/pageLoader";
 
 const useStyles = createStyles((_theme) => ({
   buttonRow: {
@@ -69,7 +70,7 @@ export default function Dashboard() {
       .catch((err) => console.log(err));
   }, [authState]);
 
-  if(!user || !transactions) return null;
+  if(!user || !transactions) return <PageLoader/>;
 
   const transactionCards = transactions.map((transaction) => <TransactionCard transfer={transaction} redmondId={user.redmondId} key={transaction.id} />);
 
