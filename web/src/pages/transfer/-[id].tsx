@@ -10,7 +10,8 @@ import Logo from "../../components/logo";
 
 const useStyles = createStyles((_theme) => ({
   container: {
-    height: '100dvh',
+    minHeight: '100dvh',
+    maxWidth: '500px',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',

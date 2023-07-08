@@ -38,10 +38,10 @@ function TransactionCard(props: TransactionCardProps) {
 
   return (
     <Link to={`/transaction/${transfer.id}`} className={classes.link}>
-      <Paper withBorder p={30} mt={15} radius="md" className={classes.transaction}>
+      <Paper withBorder p={20} mt={10} radius="md" className={classes.transaction}>
         <Group>
-          <Text size="xl">{out ? transfer.destination : transfer.source}</Text>
-          <Text size="xl" color={out ? 'black' : 'green'} ml="auto" >{out ? '' : '+'} $ {transfer.amount}</Text>
+          <Text size="lg">{out ? transfer.destination : transfer.source}</Text>
+          <Text size="lg" color={out ? 'black' : 'green'} ml="auto" >{out ? '' : '+'} $ {transfer.amount}</Text>
         </Group>
       </Paper>
     </Link>
@@ -80,20 +80,28 @@ export default function Dashboard() {
         <Text size={20}>Redmond ID: {user.redmondId}</Text>
         <Text size={24}>Balance</Text>
         <Title>$ {user.balance.toFixed(2)}</Title>
-        <Group mt={20} className={classes.buttonRow}>
+        <Group mt={16} className={classes.buttonRow}>
           <Link to="/transfer">
-            <Button size="md"><MdSend size={22} /> <Text ml={5}>Transfer</Text></Button>
+            <Button size="sm"><MdSend size={18} /> <Text ml={5}>Transfer</Text></Button>
           </Link>
           <Link to="/qr">
-            <Button size="md"><MdQrCode2 size={22} /> <Text ml={5}>Show QR</Text></Button>
+            <Button size="sm"><MdQrCode2 size={18} /> <Text ml={5}>Show QR</Text></Button>
           </Link>
-          <Button onClick={logout} size="md" color="red"><MdLogout size={22} /> <Text ml={5}>Log out</Text></Button>
+          <Button onClick={logout} size="sm" color="red"><MdLogout size={18} /> <Text ml={5}>Log out</Text></Button>
         </Group>
       </Paper>
-      <Paper withBorder shadow="md" p={30} mt={30} mb={30} radius="md">
-        <Text size={24}>Recent Transactions</Text>
-        {transactionCards}
-      </Paper>
+
+      {
+        transactions.length > 0 ? (
+
+        <Paper withBorder shadow="md" p={30} mt={30} mb={30} radius="md">
+          <Text size={20}>Recent Transactions</Text>
+          {transactionCards}
+        </Paper>
+        
+        ) : null
+      }
+
     </Container>
   );
 }

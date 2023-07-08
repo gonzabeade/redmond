@@ -8,7 +8,8 @@ import { useGetTransactionById } from "../../hooks/api/getTransactionById";
 
 const useStyles = createStyles((_theme) => ({
   container: {
-    height: '100dvh',
+    minHeight: '100dvh',
+    maxWidth: '500px',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -38,42 +39,42 @@ export default function TransactionById() {
       <Center>
         <Logo/>
       </Center>
-      <Paper withBorder shadow="md" p={30} px={70} radius="md">
+      <Paper withBorder shadow="md" p={20} px={50} radius="md">
           <Center>
-            <Text size={32} mb={20}>Transaction</Text>
+            <Text size={28} mb={16}>Transaction</Text>
           </Center>
           <Group my={10}>
-            <Text size={20}>Transaction ID: </Text>
-            <Text size={20} ml="auto">{transaction.id}</Text>
+            <Text size={16}>Transaction ID: </Text>
+            <Text size={16} ml="auto">{transaction.id}</Text>
           </Group>
           <Divider/>
           <Group my={10}>
-            <Text size={20}>From: </Text>
-            <Text size={20} ml="auto">{transaction.source}</Text>
+            <Text size={16}>From: </Text>
+            <Text size={16} ml="auto">{transaction.source}</Text>
           </Group>
           <Divider/>
           <Group my={10}>
-            <Text size={20}>To: </Text>
-            <Text size={20} ml="auto">{transaction.destination}</Text>
+            <Text size={16}>To: </Text>
+            <Text size={16} ml="auto">{transaction.destination}</Text>
           </Group>
           <Divider/>
           <Group my={10}>
-            <Text size={20}>Description: </Text>
-            <Text size={20} ml="auto">{transaction.description}</Text>
+            <Text size={16}>Description: </Text>
+            <Text size={16} ml="auto">{transaction.description}</Text>
           </Group>
           <Divider/>
           <Group my={10}>
-            <Text size={20}>Amount: </Text>
-            <Text size={20} ml="auto">{transaction.amount}</Text>
+            <Text size={16}>Amount: </Text>
+            <Text size={16} ml="auto">{transaction.amount}</Text>
           </Group>
           <Divider/>
           <Group my={10}>
-            <Text size={20}>Status: </Text>
-            <Text size={20} ml="auto">{transaction.status}</Text>
+            <Text size={16}>Status: </Text>
+            <Text size={16} ml="auto">{transaction.status}</Text>
           </Group>
           <Center>
             <Link to="/dashboard">
-              <Button size="md" mt={30}>Return</Button>
+              <Button size="sm" mt={15}>Return</Button>
             </Link>
           </Center>
       </Paper>
