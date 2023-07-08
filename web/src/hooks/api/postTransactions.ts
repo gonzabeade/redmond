@@ -22,7 +22,7 @@ export function usePostTransactions() {
         const response = await apiPost("/transactions", form);
         if(response.ok) return await response.json() as TransactionData;
         if(response.status === 400) throw new Error("Invalid transaction data");
-
+        if(response.status === 404) throw new Error("Invalid Redmond ID");
         throw new Error("Error creating transaction");
     }
     
