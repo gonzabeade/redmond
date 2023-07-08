@@ -84,4 +84,9 @@ services:
       - ./redmond/data:/data
       - ./redmond/logs:/logs
 
+  redmond-web:
+    build: ./web
+    container_name: redmond-web
+    ports:
+      - '80:3000'
       
