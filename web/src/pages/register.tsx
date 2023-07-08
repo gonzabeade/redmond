@@ -42,9 +42,9 @@ export default function Register() {
     },
 
     validate: {
-      redmondId: (value) => (/^[a-z]([a-z]|\.)+[a-z]$/.test(value) ? null : 'Invalid Redmond ID'),
-      cuil: (value) => (/^\d{11}$/.test(value) ? null : 'Invalid CUIL'),
-      cbu: (value) => (/^\d{22}$/.test(value) ? null : 'Invalid CBU'),
+      redmondId: (value) => ((/^[a-z]([a-z]|\.)+[a-z]$/.test(value) && value.length < 20) ? null : 'Redmond ID must be shorter than 20 characters and only contain lowercase letters and dots'),
+      cuil: (value) => (/^\d{11}$/.test(value) ? null : 'Invalid CUIL (11 characters long)'),
+      cbu: (value) => (/^\d{22}$/.test(value) ? null : 'Invalid CBU (22 characters long)'),
       password: (value) => (value.length >= 8 && value.length <= 32) ? null : 'Password must be between 8 and 32 characters',
       confirmPassword: (value, values) => (value === values.password) ? null : 'Passwords do not match',
     }
