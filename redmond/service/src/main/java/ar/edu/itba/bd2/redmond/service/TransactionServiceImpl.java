@@ -11,6 +11,8 @@ import ar.edu.itba.bd2.redmond.model.exceptions.InsufficientFundsException;
 import ar.edu.itba.bd2.redmond.model.exceptions.UserNotFoundException;
 import ar.edu.itba.bd2.redmond.persistence.TransactionDao;
 import ar.edu.itba.bd2.redmond.persistence.TransactionEventDao;
+import ar.edu.itba.bd2.redmond.persistence.MoneyFlowDao;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,18 +30,20 @@ public class TransactionServiceImpl implements TransactionService {
     private final UserService userService;
     private final TransactionEventDao transactionEventDao;
     private final TransactionDao transactionDao;
+    private final MoneyFlowDao moneyFlowDao;
 
     @Autowired
     public TransactionServiceImpl(
             BankService bankService,
             UserService userService,
             TransactionEventDao transactionEventDao,
-            TransactionDao transactionDao
-    ) {
+            TransactionDao transactionDao,
+            MoneyFlowDao moneyFlowDao) {
         this.bankService = bankService;
         this.userService = userService;
         this.transactionEventDao = transactionEventDao;
         this.transactionDao = transactionDao;
+        this.moneyFlowDao = moneyFlowDao;
     }
 
     @Override
@@ -114,7 +118,7 @@ public class TransactionServiceImpl implements TransactionService {
             bankService.commitTransaction(to.getBank(), t.getCreditTransactionId());
 
             t = transactionDao.updateStatus(t.getTransactionId(), TransactionStatus.APPROVED);
-
+            moneyFlowDao.addTransactionToGraph(t);
             transactionEventDao.commitTransactionEvent(t);
         } catch (Exception ex) {
             LOGGER.info("Error while committing transaction", ex);
