@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,6 +45,11 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Optional<Transaction> findById(long id) {
         return transactionDao.findById(id);
+    }
+
+    @Override
+    public List<Transaction> getAllForUser(String redmondId) {
+        return transactionDao.getAllForUser(redmondId);
     }
 
     @Override

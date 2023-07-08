@@ -24,6 +24,7 @@ module.exports = {
     ],
     '@typescript-eslint/no-non-null-assertion': 'off',
     'no-unusued-vars': 'off',
+    'react-hooks/exhaustive-deps': 'off',
     '@typescript-eslint/no-unused-vars': [
         'warn',
         { 

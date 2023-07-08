@@ -62,6 +62,7 @@ function useAuth () {
     function logout() {
         localStorage.removeItem("authToken");
         localStorage.removeItem("refreshToken");
+        setAuthState(null);
     }
 
     return {

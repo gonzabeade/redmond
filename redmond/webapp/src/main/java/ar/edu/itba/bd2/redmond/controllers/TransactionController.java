@@ -15,11 +15,13 @@ import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Tag(name = "Transactions")
 @SecurityRequirement(name = "bearerAuth")
@@ -72,9 +74,12 @@ public class TransactionController {
             @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(schema = @Schema(hidden = true))),
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content(schema = @Schema(hidden = true)))
     })
+    @PreAuthorize("#redmondId == authentication.name")
     @GetMapping
     public List<TransactionDto> getTransactions(@RequestParam String redmondId) {
-//        return transactionService.findAll();
-        throw new NotImplementedException();
+        return transactionService.getAllForUser(redmondId)
+                .stream()
+                .map(TransactionDto::new)
+                .collect(Collectors.toList());
     }
 }

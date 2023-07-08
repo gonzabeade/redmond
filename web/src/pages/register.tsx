@@ -10,7 +10,7 @@ import {
 import {useForm} from '@mantine/form';
 import Logo from '../components/logo';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSharedAuth } from '../hooks/auth';
 import { UserForm, usePostUsers } from '../hooks/api/postUsers';
 
@@ -29,10 +29,8 @@ export default function Register() {
   const { classes } = useStyles();
   const { authState, login } = useSharedAuth();
   const [error, setError] = useState<string|null>(null);
-  const { postUsers } = usePostUsers();
+  const { loading, postUsers } = usePostUsers();
   const navigate = useNavigate();
-
-  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const form = useForm({
     initialValues: {
@@ -56,13 +54,12 @@ export default function Register() {
     if(authState) {
       navigate('/dashboard');
     }
-  });
+  }, []);
 
   if(authState) return null;
 
   function handleRegister(input: UserForm) {
     async function asyncRegister() {
-      if(buttonRef.current) buttonRef.current.disabled = true;
       setError(null);
 
       try {
@@ -84,8 +81,6 @@ export default function Register() {
         console.error(err);
         setError('An error occurred while creating user. Please try again later.');
       }
-
-      if(buttonRef.current) buttonRef.current.disabled = false;
     }
     void asyncRegister();
   }
@@ -110,7 +105,7 @@ export default function Register() {
           <TextInput label="CBU" placeholder="Your CBU"  mt="md" required {...form.getInputProps('cbu')} />
           <PasswordInput label="Password" placeholder="Your password" mt="md" required {...form.getInputProps('password')} />
           <PasswordInput label="Confirm password" placeholder="Confirm your password" mt="md" required {...form.getInputProps('confirmPassword')} />
-          <Button ref={buttonRef} type='submit' fullWidth mt="xl">
+          <Button disabled={loading} type='submit' fullWidth mt="xl">
             Register
           </Button>
         </form>

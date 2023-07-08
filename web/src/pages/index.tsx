@@ -49,7 +49,7 @@ export default function Index() {
     if(authState) {
       navigate('/dashboard');
     }
-  });
+  }, []);
 
   if(authState) return null;
 
@@ -95,7 +95,7 @@ export default function Index() {
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         { errorText }
 
-        <form onSubmit={form.onSubmit(() => handleLogin)}>  
+        <form onSubmit={form.onSubmit((input) => void handleLogin(input))}>  
           <TextInput label="Redmond ID" placeholder="your.redmond.id" required {...form.getInputProps('redmondId')} />
           <PasswordInput label="Password" placeholder="Your password" required mt="md" {...form.getInputProps('password')} />
           <Button ref={buttonRef} type='submit' fullWidth mt="xl">

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -73,5 +74,11 @@ public class TransactionDaoImpl implements TransactionDao {
     public Optional<Transaction> findById(long id) {
         String sql = "SELECT * FROM transactions WHERE id = ?";
         return jdbcTemplate.query(sql, TRANSACTION_ROW_MAPPER, id).stream().findFirst();
+    }
+
+    @Override
+    public List<Transaction> getAllForUser(String redmondId) {
+        String sql = "SELECT * FROM transactions WHERE source = ? OR destination = ? ORDER BY id DESC";
+        return jdbcTemplate.query(sql, TRANSACTION_ROW_MAPPER, redmondId, redmondId);
     }
 }

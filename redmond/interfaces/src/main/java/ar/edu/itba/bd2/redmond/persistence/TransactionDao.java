@@ -5,6 +5,7 @@ import ar.edu.itba.bd2.redmond.model.enums.Bank;
 import ar.edu.itba.bd2.redmond.model.enums.TransactionStatus;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 public interface TransactionDao {
@@ -18,4 +19,5 @@ public interface TransactionDao {
     Transaction updateDebitTransactionId(long transactionId, String debitTransactionId);
     Transaction updateCreditTransactionId(long transactionId, String creditTransactionId);
     Optional<Transaction> findById(long id);
+    List<Transaction> getAllForUser(String redmondId);
 }
