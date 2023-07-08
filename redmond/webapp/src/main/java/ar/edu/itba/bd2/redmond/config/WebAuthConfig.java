@@ -68,17 +68,4 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
         web.ignoring()
                 .antMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/swagger-resources/**");
     }
-
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration cors = new CorsConfiguration();
-        cors.setAllowCredentials(true);
-        cors.setAllowedOrigins(Collections.singletonList("*"));
-        cors.setAllowedMethods(Collections.singletonList("*"));
-        cors.setAllowedHeaders(Collections.singletonList("*"));
-        cors.setExposedHeaders(Arrays.asList("Authorization", "X-Refresh", "Location", "Link", "X-Total-Pages"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", cors);
-        return source;
-    }
 }
