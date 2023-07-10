@@ -3,9 +3,9 @@ package ar.edu.itba.bd2.redmond.persistence;
 
 import ar.edu.itba.bd2.redmond.model.BankAccount;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
@@ -86,8 +86,8 @@ public class BankApiClient implements BankApiDao {
         return client.get()
                 .uri("/accounts/{cbu}", cbu)
                 .retrieve()
-                .onStatus(HttpStatus.NOT_FOUND::equals, response -> Mono.empty())
                 .bodyToMono(BankAccount.class)
+                .onErrorResume(WebClientResponseException.NotFound.class, (e) -> Mono.empty())
                 .blockOptional();
     }
 
