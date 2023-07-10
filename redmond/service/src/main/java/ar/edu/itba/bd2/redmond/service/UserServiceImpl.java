@@ -48,20 +48,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Cacheable("users::cbu")
+    @Cacheable(value = "users::cbu", unless = "#result == null")
     public Optional<User> getUserByCbu(String cbu) {
 //        logDao.logTransactionInit(new Transaction("pepe", "mili", new BigDecimal(23)));
         return userDao.getUserByCbu(cbu);
     }
 
     @Override
-    @Cacheable("users::cuil")
+    @Cacheable(value = "users::cuil", unless = "#result == null")
     public Optional<User> getUserByCuil(String cuil) {
         return userDao.getUserByCuil(cuil);
     }
 
     @Override
-    @Cacheable("users::redmondId")
+    @Cacheable(value = "users::redmondId", unless = "#result == null")
     public Optional<User> getUserByRedmondId(String redmondId) {
         return userDao.getUserByRedmondId(redmondId);
     }
