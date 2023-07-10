@@ -12,6 +12,7 @@ services:
       - redmond-zookeeper
       - redmond-broker
       - bank-01
+      - bank-02
   
   redmond-postgres:
     image: 'postgres:latest'
