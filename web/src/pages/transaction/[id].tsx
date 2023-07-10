@@ -49,6 +49,11 @@ export default function TransactionById() {
             <Text size={16} ml="auto">{transaction.id}</Text>
           </Group>
           <Divider/>
+            <Group my={10}>
+              <Text size={16}>Date: </Text>
+              <Text size={16} ml="auto">{transaction.timestamp.toLocaleDateString()} {transaction.timestamp.toLocaleTimeString()}</Text>
+            </Group>
+          <Divider/>
           <Group my={10}>
             <Text size={16}>From: </Text>
             <Text size={16} ml="auto">{transaction.source}</Text>

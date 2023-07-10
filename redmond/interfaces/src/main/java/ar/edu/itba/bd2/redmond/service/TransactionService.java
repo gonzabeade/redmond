@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface TransactionService {
     Optional<Transaction> findById(long id);
-    List<Transaction> getAllForUser(String redmondId);
+    List<Transaction> findByUser(String redmondId);
     Transaction startTransaction(String source, String destination, BigDecimal amount, String description);
     void debitTransaction(InitTransactionEvent event);
     void creditTransaction(DebitTransactionEvent event);

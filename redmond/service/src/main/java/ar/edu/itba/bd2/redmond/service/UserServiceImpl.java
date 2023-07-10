@@ -2,8 +2,9 @@ package ar.edu.itba.bd2.redmond.service;
 
 import ar.edu.itba.bd2.redmond.model.BankAccount;
 import ar.edu.itba.bd2.redmond.model.User;
+import ar.edu.itba.bd2.redmond.model.exceptions.CbuAlreadyExistsException;
 import ar.edu.itba.bd2.redmond.model.exceptions.InvalidBankAccountException;
-import ar.edu.itba.bd2.redmond.persistence.LogDao;
+import ar.edu.itba.bd2.redmond.model.exceptions.RedmondIdAlreadyExistsException;
 import ar.edu.itba.bd2.redmond.persistence.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -16,16 +17,14 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     final private UserDao userDao;
-    final private LogDao logDao;
 
     private final BankService bankService;
 
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao, LogDao logDao, BankService bankService, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserDao userDao, BankService bankService, PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
-        this.logDao = logDao;
         this.bankService = bankService;
         this.passwordEncoder = passwordEncoder;
     }
@@ -35,7 +34,13 @@ public class UserServiceImpl implements UserService {
         BankAccount account = bankService.findAccount(cbu).orElseThrow(InvalidBankAccountException::new);
         if(!cuil.equals(account.getCuil())) throw new InvalidBankAccountException();
 
-        return userDao.registerUser(redmondId, cbu, cuil, passwordEncoder.encode(password), account.getBank());
+        if(getUserByCbu(cbu).isPresent())
+            throw new CbuAlreadyExistsException();
+
+        if(getUserByRedmondId(redmondId).isPresent())
+            throw new RedmondIdAlreadyExistsException();
+
+        return userDao.save(new User(cbu, cuil, redmondId, passwordEncoder.encode(password), account.getBank()));
     }
 
     @Override
@@ -51,19 +56,19 @@ public class UserServiceImpl implements UserService {
     @Cacheable(value = "users::cbu", unless = "#result == null")
     public Optional<User> getUserByCbu(String cbu) {
 //        logDao.logTransactionInit(new Transaction("pepe", "mili", new BigDecimal(23)));
-        return userDao.getUserByCbu(cbu);
+        return userDao.findByCbu(cbu);
     }
 
     @Override
     @Cacheable(value = "users::cuil", unless = "#result == null")
     public Optional<User> getUserByCuil(String cuil) {
-        return userDao.getUserByCuil(cuil);
+        return userDao.findByCuil(cuil);
     }
 
     @Override
     @Cacheable(value = "users::redmondId", unless = "#result == null")
     public Optional<User> getUserByRedmondId(String redmondId) {
-        return userDao.getUserByRedmondId(redmondId);
+        return userDao.findByRedmondId(redmondId);
     }
 
     @Override

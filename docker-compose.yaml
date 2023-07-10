@@ -2,6 +2,7 @@ services:
   redmond:
     container_name: redmond
     build: ./redmond
+    restart: unless-stopped
     environment:
       - 'banks.urls=http://bank-01:80,http://bank-02:80'
     ports:

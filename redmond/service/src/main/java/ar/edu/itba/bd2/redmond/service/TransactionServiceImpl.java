@@ -9,10 +9,10 @@ import ar.edu.itba.bd2.redmond.model.events.InitTransactionEvent;
 import ar.edu.itba.bd2.redmond.model.events.PanicTransactionEvent;
 import ar.edu.itba.bd2.redmond.model.exceptions.InsufficientFundsException;
 import ar.edu.itba.bd2.redmond.model.exceptions.UserNotFoundException;
+import ar.edu.itba.bd2.redmond.persistence.LogDao;
+import ar.edu.itba.bd2.redmond.persistence.MoneyFlowDao;
 import ar.edu.itba.bd2.redmond.persistence.TransactionDao;
 import ar.edu.itba.bd2.redmond.persistence.TransactionEventDao;
-import ar.edu.itba.bd2.redmond.persistence.MoneyFlowDao;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,8 +52,8 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<Transaction> getAllForUser(String redmondId) {
-        return transactionDao.getAllForUser(redmondId);
+    public List<Transaction> findByUser(String redmondId) {
+        return transactionDao.findByUser(redmondId);
     }
 
     @Override
@@ -64,12 +64,15 @@ public class TransactionServiceImpl implements TransactionService {
         if(from.getBalance().compareTo(amount) < 0)
             throw new InsufficientFundsException();
 
-        Transaction transaction = transactionDao.create(
-                source,
-                destination,
-                amount,
-                description
+        Transaction transaction = transactionDao.save(
+                new Transaction(
+                    source,
+                    destination,
+                    amount,
+                    description
+                )
         );
+
         transactionEventDao.initializeTransactionEvent(transaction);
 
         return transaction;
@@ -82,9 +85,11 @@ public class TransactionServiceImpl implements TransactionService {
 
         try {
             String bankTransactionId = bankService.debit(from, "Redmond: Transaction to " + t.getDescription(), t.getAmount());
-            Transaction updated = transactionDao.updateDebitTransactionId(t.getTransactionId(), bankTransactionId);
 
-            transactionEventDao.debitTransactionEvent(updated);
+            t.setDebitTransactionId(bankTransactionId);
+            t = transactionDao.save(t);
+
+            transactionEventDao.debitTransactionEvent(t);
         } catch (Exception ex) {
             LOGGER.info("Error while debiting transaction", ex);
             transactionEventDao.panicTransactionEvent(t);
@@ -98,9 +103,11 @@ public class TransactionServiceImpl implements TransactionService {
 
         try {
             String bankTransactionId = bankService.credit(to, "Redmond: Transaction from " + t.getDescription(), t.getAmount());
-            Transaction updated = transactionDao.updateCreditTransactionId(t.getTransactionId(), bankTransactionId);
 
-            transactionEventDao.creditTransactionEvent(updated);
+            t.setCreditTransactionId(bankTransactionId);
+            t = transactionDao.save(t);
+
+            transactionEventDao.creditTransactionEvent(t);
         } catch (Exception ex) {
             LOGGER.info("Error while crediting transaction", ex);
             transactionEventDao.panicTransactionEvent(t);
@@ -117,7 +124,9 @@ public class TransactionServiceImpl implements TransactionService {
             bankService.commitTransaction(from.getBank(), t.getDebitTransactionId());
             bankService.commitTransaction(to.getBank(), t.getCreditTransactionId());
 
-            t = transactionDao.updateStatus(t.getTransactionId(), TransactionStatus.APPROVED);
+            t.setStatus(TransactionStatus.APPROVED);
+            t = transactionDao.save(t);
+
             transactionEventDao.commitTransactionEvent(t);
         } catch (Exception ex) {
             LOGGER.info("Error while committing transaction", ex);
@@ -144,7 +153,8 @@ public class TransactionServiceImpl implements TransactionService {
             if(t.getDebitTransactionId() != null)
                 bankService.rollbackTransaction(from.getBank(), t.getDebitTransactionId());
 
-            t = transactionDao.updateStatus(t.getTransactionId(), TransactionStatus.REJECTED);
+            t.setStatus(TransactionStatus.REJECTED);
+            t = transactionDao.save(t);
 
             transactionEventDao.rollbackTransactionEvent(t);
         } catch (Exception ex) {

@@ -8,7 +8,10 @@ export function useGetTransactionById() {
         const response = await apiGet(`/transactions/${id}`);
         if(!response.ok) throw new Error("Error getting transaction");
 
-        return await response.json() as TransactionData;
+        const data = await response.json() as TransactionData;
+        data.timestamp = new Date(data.timestamp);
+
+        return data;
     }
     
     return { loading, getTransactionById };

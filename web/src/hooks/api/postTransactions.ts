@@ -8,6 +8,7 @@ export interface TransactionForm {
 
 export interface TransactionData {
     id: string;
+    timestamp: Date;
     source: string;
     destination: string;
     description?: string;
@@ -20,10 +21,15 @@ export function usePostTransactions() {
 
     async function postTransactions(form: TransactionForm) {
         const response = await apiPost("/transactions", form);
-        if(response.ok) return await response.json() as TransactionData;
-        if(response.status === 400) throw new Error("Invalid transaction data");
-        if(response.status === 404) throw new Error("Invalid Redmond ID");
-        throw new Error("Error creating transaction");
+
+        if(response.ok) {
+            const json = await response.json() as TransactionData;
+            json.timestamp = new Date(json.timestamp);
+            return json;
+        }
+        
+        const body = await response.json() as { error: string };        
+        throw new Error(body.error);
     }
     
     return { loading, postTransactions };

@@ -4,16 +4,21 @@ import ar.edu.itba.bd2.redmond.model.Transaction;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 
 @Document(collection = "logs")
 public class MongoLog {
 
     public enum LogType {
-        NEW_TX,
-        RETRY_TX,
-        PANIC_TX
+        START_TX,
+        DEBIT_TX,
+        CREDIT_TX,
+        COMMIT_TX,
+        PANIC_TX,
+        ROLLBACK_TX
     }
 
+    private Instant timestamp;
     private String source;
     private String destination;
     private BigDecimal amount;
@@ -27,6 +32,7 @@ public class MongoLog {
         log.amount = tx.getAmount();
         log.transactionId = String.valueOf(tx.getTransactionId());
         log.type = type;
+        log.timestamp = Instant.now();
         return log;
     }
 
@@ -40,6 +46,10 @@ public class MongoLog {
         this.amount = amount;
         this.transactionId = transactionId;
         this.type = type;
+    }
+
+    public Instant getTimestamp() {
+        return timestamp;
     }
 
     public String getSource() {

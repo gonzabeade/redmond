@@ -2,14 +2,30 @@ package ar.edu.itba.bd2.redmond.model;
 
 import ar.edu.itba.bd2.redmond.model.enums.Bank;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @Column(columnDefinition = "varchar(20)")
     private String redmondId;
+
+    @Column(nullable = false, columnDefinition = "varchar(255)")
     private String password;
+
+    @Column(nullable = false, columnDefinition = "char(22)")
     private String cbu;
+
+    @Column(nullable = false, columnDefinition = "char(11)")
     private String cuil;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, columnDefinition = "char(6)")
     private Bank bank;
+
+    @Transient
     private BigDecimal balance;
 
     public User() {

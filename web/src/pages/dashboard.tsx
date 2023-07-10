@@ -37,12 +37,16 @@ function TransactionCard(props: TransactionCardProps) {
 
   const out = transfer.source === props.redmondId;
 
+  const amountText = (<Text size="lg" color={out ? 'black' : 'green'} ml="auto" >{out ? '' : '+'} $ {transfer.amount}</Text>);
+
   return (
     <Link to={`/transaction/${transfer.id}`} className={classes.link}>
       <Paper withBorder p={20} mt={10} radius="md" className={classes.transaction}>
         <Group>
           <Text size="lg">{out ? transfer.destination : transfer.source}</Text>
-          <Text size="lg" color={out ? 'black' : 'green'} ml="auto" >{out ? '' : '+'} $ {transfer.amount}</Text>
+          {
+            transfer.status === 'rejected' ? (<s>{amountText}</s>) : amountText
+          }
         </Group>
       </Paper>
     </Link>

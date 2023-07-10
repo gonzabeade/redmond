@@ -1,6 +1,7 @@
 package ar.edu.itba.bd2.redmond.subscribers;
 
 import ar.edu.itba.bd2.redmond.model.events.*;
+import ar.edu.itba.bd2.redmond.service.LogService;
 import ar.edu.itba.bd2.redmond.service.TransactionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,39 +16,46 @@ public class TransactionEventSubscriber {
     private static final Logger logger = LoggerFactory.getLogger(TransactionEventSubscriber.class);
 
     private final TransactionService transactionService;
+    private final LogService logService;
 
     @Autowired
-    public TransactionEventSubscriber(TransactionService transactionService) {
+    public TransactionEventSubscriber(TransactionService transactionService, LogService logService) {
         this.transactionService = transactionService;
+        this.logService = logService;
     }
 
     @KafkaHandler
     public void handleInitTransactionEvent(InitTransactionEvent e) {
         logger.debug("Init transaction event id: " + e.getTransactionId());
         transactionService.debitTransaction(e);
+        logService.logInitTransactionEvent(e);
     }
 
     @KafkaHandler
     public void handleDebitTransactionEvent(DebitTransactionEvent e) {
         logger.debug("Debit transaction event id: " + e.getTransactionId());
         transactionService.creditTransaction(e);
+        logService.logDebitTransactionEvent(e);
     }
 
     @KafkaHandler
     public void handleCreditTransactionEvent(CreditTransactionEvent e) {
         logger.debug("Credit transaction event id: " + e.getTransactionId());
         transactionService.commitTransaction(e);
+        logService.logCreditTransactionEvent(e);
     }
 
     @KafkaHandler
     public void handleCommitTransactionEvent(CommitTransactionEvent e ){
         logger.debug("Commit transaction event id: " + e.getTransactionId());
+        logService.logCommitTransactionEvent(e);
     }
 
     @KafkaHandler
     public void handlePanicTransactionEvent(PanicTransactionEvent e) {
         logger.debug("Panic transaction event id: " + e.getTransactionId());
         transactionService.rollbackTransaction(e);
+        logService.logPanicTransactionEvent(e);
     }
 
     @KafkaHandler(isDefault = true)

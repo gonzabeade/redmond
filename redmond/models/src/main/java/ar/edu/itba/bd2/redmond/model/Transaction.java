@@ -1,39 +1,55 @@
 package ar.edu.itba.bd2.redmond.model;
 
-import ar.edu.itba.bd2.redmond.model.enums.Bank;
 import ar.edu.itba.bd2.redmond.model.enums.TransactionStatus;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.Instant;
 
+@Entity
+@Table(name = "transactions")
 public class Transaction {
+    @Id
+    @GeneratedValue
+    private Long transactionId;
+
+    @Column(nullable = false)
+    private Instant timestamp;
+
+    @Column(nullable = false, columnDefinition = "varchar(20)")
     private String source;
+
+    @Column(nullable = false, columnDefinition = "varchar(20)")
     private String destination;
+
+    @Column(nullable = false, columnDefinition = "numeric(18,2)")
     private BigDecimal amount;
-    private long transactionId;
+
     private String description;
+
     private String debitTransactionId;
+
     private String creditTransactionId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, columnDefinition = "varchar(10)")
     private TransactionStatus status;
 
     public Transaction(
-            long transactionId,
             String source,
             String destination,
             BigDecimal amount,
-            String description,
-            String debitTransactionId,
-            String creditTransactionId,
-            TransactionStatus status
+            String description
     ) {
-        this.transactionId = transactionId;
         this.source = source;
         this.destination = destination;
         this.amount = amount;
         this.description = description;
-        this.status = status;
-        this.debitTransactionId = debitTransactionId;
-        this.creditTransactionId = creditTransactionId;
+        this.status = TransactionStatus.PENDING;
+        this.timestamp = Instant.now();
     }
+
+    protected Transaction() {}
 
     public String getSource() {
         return source;
@@ -41,6 +57,14 @@ public class Transaction {
 
     public void setSource(String source) {
         this.source = source;
+    }
+
+    public Instant getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Instant timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getDestination() {
@@ -83,11 +107,11 @@ public class Transaction {
         this.creditTransactionId = creditTransactionId;
     }
 
-    public long getTransactionId() {
+    public Long getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId(long transactionId) {
+    public void setTransactionId(Long transactionId) {
         this.transactionId = transactionId;
     }
 

@@ -12,7 +12,11 @@ export function useGetTransactions() {
         const response = await apiGet(`/transactions?redmondId=${authState.redmondId}`);
         if(!response.ok) throw new Error("Error getting transactions");
 
-        return await response.json() as [TransactionData];
+        const data = await response.json() as [TransactionData];
+        return data.map(t => {
+            t.timestamp = new Date(t.timestamp);
+            return t;
+        });
     }
     
     return { loading, getTransactions };
