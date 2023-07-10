@@ -14,9 +14,12 @@ ADD models /app/models/
 ADD persistence /app/persistence/
 ADD service /app/service/
 ADD webapp /app/webapp/
-ADD webapp/src/main/resources/application.prod.properties /app/webapp/src/main/resources/application.properties
 RUN mvn package
 
+
 FROM eclipse-temurin:11-jdk-alpine
+ENV spring.profiles.active=prod
+
 COPY --from=build /app/webapp/target/webapp-1.0-SNAPSHOT.jar /app/webapp.jar
+
 ENTRYPOINT java -jar /app/webapp.jar

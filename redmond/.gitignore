@@ -1,5 +1,4 @@
 .idea
-webapp/src/main/resources/application.properties
 data
 logs
 /docker-compose-gon.yml

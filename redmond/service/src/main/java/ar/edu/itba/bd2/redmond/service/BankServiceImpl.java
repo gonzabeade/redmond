@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -20,14 +21,16 @@ public class BankServiceImpl implements BankService {
 
     @Autowired
     public BankServiceImpl(
-            @Value("${bank1.url}") String bank1Url
-//            @Value("${bank2.url}") String bank2Url
+            @Value("${banks.urls}") List<String> bankApiUrls
     ) {
         this.clients = new HashMap<>();
-        clients.put(Bank.BANK_1, new BankApiClient(bank1Url));
-//        clients.put(Bank.BANK_2, new BankApiClient(bank2Url));
-    }
 
+        for(int i = 0; i < bankApiUrls.size(); i++) {
+            Bank bank = Bank.values()[i];
+            String url = bankApiUrls.get(i);
+            clients.put(bank, new BankApiClient(url));
+        }
+    }
 
     @Override
     public String debit(User user, String description, BigDecimal amount) {

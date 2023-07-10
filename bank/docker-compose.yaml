@@ -2,6 +2,8 @@ services:
   bank-01:
     container_name: bank-01
     build: .
+    environment:
+      - 'BANK_ID=01'
     ports:
       - '8081:80'
     depends_on:
@@ -11,7 +13,7 @@ services:
     image: 'postgres:latest'
     container_name: bank-01-postgres
     environment:
-      - 'POSTGRES_DB=bank1db'
+      - 'POSTGRES_DB=bank-01-db'
       - 'POSTGRES_PASSWORD=postgres'
       - 'POSTGRES_USER=postgres'
 

@@ -5,6 +5,6 @@ services:
     ports:
       - '5432:5432'
     environment:
-      - 'POSTGRES_DB=bank1db'
+      - 'POSTGRES_DB=bank-01-db'
       - 'POSTGRES_PASSWORD=postgres'
       - 'POSTGRES_USER=postgres'

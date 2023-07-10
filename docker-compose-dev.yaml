@@ -41,6 +41,8 @@ services:
   bank-01:
     container_name: bank-01
     build: ./bank
+    environment:
+      - 'BANK_ID=01'
     ports:
       - '8081:80'
     depends_on:
@@ -50,7 +52,25 @@ services:
     image: 'postgres:latest'
     container_name: bank-01-postgres
     environment:
-      - 'POSTGRES_DB=bank1db'
+      - 'POSTGRES_DB=bank-01-db'
+      - 'POSTGRES_PASSWORD=postgres'
+      - 'POSTGRES_USER=postgres'
+
+  bank-02:
+    container_name: bank-02
+    build: ./bank
+    environment:
+      - 'BANK_ID=02'
+    ports:
+      - '8082:80'
+    depends_on:
+      - bank-02-postgres
+  
+  bank-02-postgres:
+    image: 'postgres:latest'
+    container_name: bank-02-postgres
+    environment:
+      - 'POSTGRES_DB=bank-02-db'
       - 'POSTGRES_PASSWORD=postgres'
       - 'POSTGRES_USER=postgres'
 
