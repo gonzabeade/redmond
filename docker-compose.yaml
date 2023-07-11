@@ -12,6 +12,7 @@ services:
       - redmond-redis
       - redmond-zookeeper
       - redmond-broker
+      - redmond-elastic
       - bank-01
       - bank-02
 
