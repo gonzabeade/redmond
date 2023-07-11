@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<ElasticUser> search(String redmondId) {
-        return elasticDao.findByRedmondId(redmondId, Pageable.ofSize(10)).toList();
+    public List<ElasticUser> search(String query, String userId) {
+        return elasticDao.findByRedmondId(query, userId, Pageable.ofSize(10)).toList();
     }
 }

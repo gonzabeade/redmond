@@ -13,5 +13,5 @@ public interface UserService {
     Optional<User> getUserByRedmondIdWithBalance(String redmondId);
     Optional<User> getUserByCuil(String cuil);
     boolean isLoginValid(String redmondId, String password);
-    List<ElasticUser> search(String redmondId);
+    List<ElasticUser> search(String query, String userId);
 }

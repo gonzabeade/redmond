@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -74,8 +75,8 @@ public class UserController {
     })
     @SecurityRequirement(name = "bearerAuth")
     @GetMapping
-    public ResponseEntity<List<ElasticUserDto>> search(@RequestParam String search) {
-        List<ElasticUser> users = userService.search(search);
+    public ResponseEntity<List<ElasticUserDto>> search(@RequestParam String search, Authentication auth) {
+        List<ElasticUser> users = userService.search(search, auth.getName());
         if(users.isEmpty()) return ResponseEntity.noContent().build();
         return ResponseEntity.ok(
                 users.stream()
