@@ -1,4 +1,4 @@
-import { Button, Center, Container, Group, Paper, Text, Title, createStyles } from "@mantine/core";
+import { Button, Center, Container, Group, Loader, Paper, Text, Title, createStyles } from "@mantine/core";
 import { UserData, useGetUser } from "../hooks/api/getUser";
 import { useEffect, useState } from "react";
 import { MdQrCode2, MdSend, MdLogout } from 'react-icons/md';
@@ -63,7 +63,10 @@ export default function Dashboard() {
   const { classes } = useStyles();
 
   useEffect(() => {
-    if(!authState) navigate("/");
+    if(!authState) {
+      navigate("/");
+      return;
+    }
 
     getUser()
       .then((data) => setUser(data))
@@ -74,17 +77,20 @@ export default function Dashboard() {
       .catch((err) => console.log(err));
   }, [authState]);
 
-  if(!user || !transactions) return <PageLoader/>;
-
-  const transactionCards = transactions.map((transaction) => <TransactionCard transfer={transaction} redmondId={user.redmondId} key={transaction.id} />);
+  if(!authState) {
+    return null;
+  }
 
   return (
     <Container size={"xs"}>
       <Center><Logo/></Center>
       <Paper withBorder shadow="md" p={30} radius="md">
-        <Text size={20}>Redmond ID: {user.redmondId}</Text>
+        <Text size={20}>Redmond ID: {authState.redmondId}</Text>
         <Text size={24}>Balance</Text>
-        <Title>$ {user.balance.toFixed(2)}</Title>
+        <Group >
+          <Title>$ {user?.balance.toFixed(2)}</Title>
+          {!user ? <Loader /> : null}
+        </Group>
         <Group mt={16} className={classes.buttonRow}>
           <Link to="/transfer">
             <Button size="sm"><MdSend size={18} /> <Text ml={5}>Transfer</Text></Button>
@@ -97,14 +103,20 @@ export default function Dashboard() {
       </Paper>
 
       {
-        transactions.length > 0 ? (
+        transactions ? (
 
-        <Paper withBorder shadow="md" p={30} mt={30} mb={30} radius="md">
-          <Text size={20}>Recent Transactions</Text>
-          {transactionCards}
-        </Paper>
-        
-        ) : null
+          transactions.length > 0 ? (
+            <Paper withBorder shadow="md" p={30} mt={30} mb={30} radius="md">
+              <Text size={20}>Recent Transactions</Text>
+              {
+                transactions.map((transaction) => 
+                  <TransactionCard transfer={transaction} redmondId={authState.redmondId} key={transaction.id} />
+                )
+              }
+            </Paper>
+          ) : null
+
+        ) : <Center mt={30}><Loader/></Center>
       }
 
     </Container>

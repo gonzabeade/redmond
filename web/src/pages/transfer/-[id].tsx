@@ -38,7 +38,7 @@ export default function TransferToId() {
   const [loading, setLoading] = useState<boolean>(false);
 
   const {loading: idInputLoading, searchUsers} = useSearchUsers();
-  const [idInputValue, setIdInputValue] = useState<string>("");
+  const [idInputValue, setIdInputValue] = useState<string>(id ?? "");
   const [idInputData, setIdInputData] = useState<string[]>([]);
 
   const form = useForm({
