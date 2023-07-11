@@ -10,7 +10,6 @@
 .springBeans
 .sts4-cache
 
-
 # Created by https://www.gitignore.io/api/git,java,maven,eclipse,windows
 
 ### Eclipse ###
@@ -197,6 +196,5 @@ dependency-reduced-pom.xml
 .gradle
 README.html
 *.iml
-.idea
+redmond_api/.idea
 .exercism
-webapp/src/main/resources/application.properties
