@@ -1,6 +1,6 @@
 import { Center, Container, Paper, TextInput, Text, Button, createStyles, Autocomplete, Loader } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { usePostTransactions } from "../../hooks/api/postTransactions";
 import { useNavigate, useParams } from "../../router";
 import { useSharedAuth } from "../../hooks/auth";
@@ -41,8 +41,6 @@ export default function TransferToId() {
   const [idInputValue, setIdInputValue] = useState<string>(id ?? "");
   const [idInputData, setIdInputData] = useState<string[]>([]);
 
-  const hiddenRef = useRef<HTMLInputElement>(null);
-
   const form = useForm({
     initialValues: {
       destination: id ? id : "",
@@ -81,17 +79,16 @@ export default function TransferToId() {
   }
 
   async function onIdInputChange(value: string) {
+    form.setFieldValue('destination', value);
     setIdInputValue(value);
-    setIdInputData([]);
-    hiddenRef.current!.value = value;
-    
-    if(value.length == 0) return;
     
     try {
       const users = await searchUsers(value);
+
       setIdInputData(users.map((user) => user.redmondId));
     } catch (err) {
-      console.error(err);
+      console.info(err);
+      setIdInputData([]);
     }
   }
 
@@ -113,15 +110,15 @@ export default function TransferToId() {
         <form onSubmit={form.onSubmit((input) => void onSend(input))}>
           <Autocomplete
             disabled={!!id}
-            value={idInputValue}
             data={idInputData}
-            onChange={(value) => void onIdInputChange(value)}
             rightSection={idInputLoading ? <Loader size="1rem" /> : null}
             label="Destination"
             placeholder="their.redmond.id"
             required
+            {...form.getInputProps('destination')}
+            onChange={(value) => void onIdInputChange(value)}
+            value={idInputValue}
           />
-          <input ref={hiddenRef} hidden required {...form.getInputProps('destination')} />
 
           <TextInput label="Amount" placeholder="0.00" required mt={20} {...form.getInputProps('amount')} />
           <TextInput label="Description" placeholder="Optional" mt={20} {...form.getInputProps('description')} />
