@@ -6,11 +6,11 @@ import {
   Center,
   Button,
 } from '@mantine/core';
-import Logo from '../../components/logo';
-import { Link, useNavigate } from 'react-router-dom';
+import Logo from '../components/logo';
 import { useEffect } from 'react';
-import { useSharedAuth } from '../../hooks/auth';
+import { useSharedAuth } from '../hooks/auth';
 import QRCode from 'react-qr-code';
+import { useNavigate } from '../router';
 
 const useStyles = createStyles((_theme) => ({
   container: {
@@ -24,9 +24,9 @@ const useStyles = createStyles((_theme) => ({
 }));
 
 export default function MyQrCode() {
+  const navigate = useNavigate();
   const { classes } = useStyles();
   const { authState } = useSharedAuth();
-  const navigate = useNavigate();
 
   useEffect(() => {
     if(!authState) {
@@ -51,9 +51,7 @@ export default function MyQrCode() {
           <QRCode value={url} />
         </Center>
         <Center>
-          <Link to="/dashboard">
-            <Button mt={30}>Return</Button>
-          </Link>
+          <Button onClick={() => navigate(-1)} mt={30}>Return</Button>
         </Center>
       </Paper>
     </Container>

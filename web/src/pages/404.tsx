@@ -52,7 +52,7 @@ export default function NotFound() {
         been moved to another URL.
       </Text>
       <Group position="center">
-        <Link to="/">
+        <Link to="/" replace>
           <Button variant="subtle" size="md">
             Take me back to home page
           </Button>

@@ -8,7 +8,6 @@ import { useNavigate } from "../router";
 import { Link } from "react-router-dom";
 import { TransactionData } from "../hooks/api/postTransactions";
 import { useGetTransactions } from "../hooks/api/getTransactions";
-import PageLoader from "../components/pageLoader";
 
 const useStyles = createStyles((_theme) => ({
   buttonRow: {

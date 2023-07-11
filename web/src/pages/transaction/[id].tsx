@@ -1,9 +1,8 @@
 import { Button, Center, Container, Divider, Group, Paper, Text, createStyles } from "@mantine/core";
 import Logo from "../../components/logo";
-import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { TransactionData } from "../../hooks/api/postTransactions";
-import { useParams } from "../../router";
+import { useNavigate, useParams } from "../../router";
 import { useGetTransactionById } from "../../hooks/api/getTransactionById";
 import PageLoader from "../../components/pageLoader";
 
@@ -20,6 +19,7 @@ const useStyles = createStyles((_theme) => ({
 }));
 
 export default function TransactionById() {
+  const navigate = useNavigate();
   const { id } = useParams("/transaction/:id");
   const { classes } = useStyles();
   const [transaction, setTransaction] = useState<TransactionData|null>(null);
@@ -79,9 +79,7 @@ export default function TransactionById() {
             <Text size={16} ml="auto">{transaction.status}</Text>
           </Group>
           <Center>
-            <Link to="/dashboard">
-              <Button size="sm" mt={15}>Return</Button>
-            </Link>
+            <Button onClick={() => navigate(-1)} size="sm" mt={15}>Return</Button>
           </Center>
       </Paper>
     </Container>
