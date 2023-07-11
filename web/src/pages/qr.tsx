@@ -45,7 +45,7 @@ export default function MyQrCode() {
       </Center>
       <Paper withBorder shadow="md" p={30} radius="md">
         <Center>
-          <Text size={32} mb={10}>Your QR</Text>
+          <Text size={32} mb={10}>{authState.redmondId}</Text>
         </Center>
         <Center m={30}>
           <QRCode value={url} />
