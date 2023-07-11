@@ -1,7 +1,10 @@
 package ar.edu.itba.bd2.redmond.controllers;
 
+import ar.edu.itba.bd2.redmond.dto.ElasticUserDto;
 import ar.edu.itba.bd2.redmond.dto.UserDto;
 import ar.edu.itba.bd2.redmond.form.RegisterUserForm;
+import ar.edu.itba.bd2.redmond.model.User;
+import ar.edu.itba.bd2.redmond.model.elastic.ElasticUser;
 import ar.edu.itba.bd2.redmond.model.exceptions.UserNotFoundException;
 import ar.edu.itba.bd2.redmond.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,10 +16,13 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Tag(name = "Users")
 @RestController
@@ -55,6 +61,26 @@ public class UserController {
     public UserDto get(@PathVariable String id) {
         return new UserDto(
                 userService.getUserByRedmondIdWithBalance(id).orElseThrow(UserNotFoundException::new)
+        );
+    }
+
+    @Operation(summary = "Optimized Redmond ID Search")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "204", description = "No content", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(schema = @Schema(hidden = true))),
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content(schema = @Schema(hidden = true))),
+    })
+    @SecurityRequirement(name = "bearerAuth")
+    @GetMapping
+    public ResponseEntity<List<ElasticUserDto>> search(@RequestParam String search) {
+        List<ElasticUser> users = userService.search(search);
+        if(users.isEmpty()) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(
+                users.stream()
+                        .map(ElasticUserDto::new)
+                        .collect(Collectors.toList())
         );
     }
 }

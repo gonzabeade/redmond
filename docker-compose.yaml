@@ -14,7 +14,7 @@ services:
       - redmond-broker
       - bank-01
       - bank-02
-  
+
   redmond-postgres:
     image: 'postgres:latest'
     container_name: redmond-postgres
@@ -30,7 +30,7 @@ services:
     container_name: redmond-redis
     ports:
       - "6379:6379"
-  
+
   redmond-zookeeper:
     image: confluentinc/cp-zookeeper:7.3.2
     container_name: redmond-zookeeper
@@ -53,7 +53,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-  
+
   bank-01:
     container_name: bank-01
     build: ./bank
@@ -63,7 +63,7 @@ services:
       - '8081:80'
     depends_on:
       - bank-01-postgres
-  
+
   bank-01-postgres:
     image: 'postgres:latest'
     container_name: bank-01-postgres
@@ -71,7 +71,7 @@ services:
       - 'POSTGRES_DB=bank-01-db'
       - 'POSTGRES_PASSWORD=postgres'
       - 'POSTGRES_USER=postgres'
-    
+
   bank-02:
     container_name: bank-02
     build: ./bank
@@ -81,7 +81,7 @@ services:
       - '8082:80'
     depends_on:
       - bank-02-postgres
-  
+
   bank-02-postgres:
     image: 'postgres:latest'
     container_name: bank-02-postgres
@@ -108,9 +108,17 @@ services:
       - ./redmond/data:/data
       - ./redmond/logs:/logs
 
+  redmond-elastic:
+    image: elasticsearch:7.17.10
+    container_name: redmond-elastic
+    ports:
+      - "9200:9200"
+    environment:
+      - "xpack.security.enabled=false"
+      - "discovery.type=single-node"
+
   redmond-web:
     build: ./web
     container_name: redmond-web
     ports:
       - '80:3000'
-      

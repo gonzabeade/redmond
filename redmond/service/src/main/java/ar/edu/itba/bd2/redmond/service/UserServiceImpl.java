@@ -2,33 +2,42 @@ package ar.edu.itba.bd2.redmond.service;
 
 import ar.edu.itba.bd2.redmond.model.BankAccount;
 import ar.edu.itba.bd2.redmond.model.User;
+import ar.edu.itba.bd2.redmond.model.elastic.ElasticUser;
 import ar.edu.itba.bd2.redmond.model.exceptions.CbuAlreadyExistsException;
 import ar.edu.itba.bd2.redmond.model.exceptions.InvalidBankAccountException;
 import ar.edu.itba.bd2.redmond.model.exceptions.RedmondIdAlreadyExistsException;
+import ar.edu.itba.bd2.redmond.persistence.ElasticDao;
 import ar.edu.itba.bd2.redmond.persistence.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    final private UserDao userDao;
+    private final UserDao userDao;
+
+    private final ElasticDao elasticDao;
 
     private final BankService bankService;
 
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao, BankService bankService, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserDao userDao, ElasticDao elasticDao, BankService bankService, PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
+        this.elasticDao = elasticDao;
         this.bankService = bankService;
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Transactional
     @Override
     public User registerUser(String redmondId, String cbu, String cuil, String password) {
         BankAccount account = bankService.findAccount(cbu).orElseThrow(InvalidBankAccountException::new);
@@ -40,7 +49,10 @@ public class UserServiceImpl implements UserService {
         if(getUserByRedmondId(redmondId).isPresent())
             throw new RedmondIdAlreadyExistsException();
 
-        return userDao.save(new User(cbu, cuil, redmondId, passwordEncoder.encode(password), account.getBank()));
+        User user = userDao.save(new User(cbu, cuil, redmondId, passwordEncoder.encode(password), account.getBank()));
+        elasticDao.save(new ElasticUser(user));
+
+        return user;
     }
 
     @Override
@@ -83,5 +95,10 @@ public class UserServiceImpl implements UserService {
 
         user.setBalance(account.getBalance());
         return Optional.of(user);
+    }
+
+    @Override
+    public List<ElasticUser> search(String redmondId) {
+        return elasticDao.findByRedmondId(redmondId, Pageable.ofSize(10)).toList();
     }
 }

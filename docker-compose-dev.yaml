@@ -92,6 +92,15 @@ services:
       - ./redmond/data:/data
       - ./redmond/logs:/logs
 
+  redmond-elastic:
+    image: elasticsearch:7.17.10
+    container_name: redmond-elastic
+    ports:
+      - "9200:9200"
+    environment:
+      - "xpack.security.enabled=false"
+      - "discovery.type=single-node"
+
   redmond-web:
     build: ./web
     container_name: redmond-web

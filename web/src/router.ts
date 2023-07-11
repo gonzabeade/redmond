@@ -10,7 +10,6 @@ export type Path =
   | `/register`
   | `/transaction/:id`
   | `/transfer/:id?`
-  | `/transfer/transfer`
 
 export type Params = {
   '/transaction/:id': { id: string }

@@ -1,4 +1,4 @@
-import { Center, Container, Paper, TextInput, Text, Button, createStyles } from "@mantine/core";
+import { Center, Container, Paper, TextInput, Text, Button, createStyles, Autocomplete, Loader } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useEffect, useState } from "react";
 import { usePostTransactions } from "../../hooks/api/postTransactions";
@@ -7,6 +7,7 @@ import { useSharedAuth } from "../../hooks/auth";
 import { useGetTransactionById } from "../../hooks/api/getTransactionById";
 import PageLoader from "../../components/pageLoader";
 import Logo from "../../components/logo";
+import { useSearchUsers } from "../../hooks/api/searchUsers";
 
 const useStyles = createStyles((_theme) => ({
   container: {
@@ -35,6 +36,10 @@ export default function TransferToId() {
   const { classes } = useStyles();
   const [error, setError] = useState<string|null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const {loading: idInputLoading, searchUsers} = useSearchUsers();
+  const [idInputValue, setIdInputValue] = useState<string>("");
+  const [idInputData, setIdInputData] = useState<string[]>([]);
 
   const form = useForm({
     initialValues: {
@@ -73,6 +78,20 @@ export default function TransferToId() {
     setLoading(false);
   }
 
+  async function onIdInputChange(value: string) {
+    setIdInputValue(value);
+    setIdInputData([]);
+    
+    if(value.length == 0) return;
+    
+    try {
+      const users = await searchUsers(value);
+      setIdInputData(users.map((user) => user.redmondId));
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   let errorText;
   if(error) {
     errorText = <Text color="red" mt={20}>{error}</Text>;
@@ -89,7 +108,18 @@ export default function TransferToId() {
           </Center>
           {errorText}
         <form onSubmit={form.onSubmit((input) => void onSend(input))}>
-          <TextInput disabled={!!id} label="Destination" placeholder="their.redmond.id" required {...form.getInputProps('destination')} />
+          <Autocomplete
+            disabled={!!id}
+            value={idInputValue}
+            data={idInputData}
+            onChange={(value) => void onIdInputChange(value)}
+            rightSection={idInputLoading ? <Loader size="1rem" /> : null}
+            label="Destination"
+            placeholder="their.redmond.id"
+            required
+          />
+          <input hidden required {...form.getInputProps('destination')} />
+
           <TextInput label="Amount" placeholder="0.00" required mt={20} {...form.getInputProps('amount')} />
           <TextInput label="Description" placeholder="Optional" mt={20} {...form.getInputProps('description')} />
           <Center>
