@@ -5,6 +5,7 @@ import { TransactionData } from "../../hooks/api/postTransactions";
 import { useNavigate, useParams } from "../../router";
 import { useGetTransactionById } from "../../hooks/api/getTransactionById";
 import PageLoader from "../../components/pageLoader";
+import { Link } from "react-router-dom";
 
 const useStyles = createStyles((_theme) => ({
   container: {
@@ -79,7 +80,9 @@ export default function TransactionById() {
             <Text size={16} ml="auto">{transaction.status}</Text>
           </Group>
           <Center>
-            <Button onClick={() => navigate(-1)} size="sm" mt={15}>Return</Button>
+            <Link to="/dashboard" replace>
+              <Button size="sm" mt={15}>Return</Button>
+            </Link>
           </Center>
       </Paper>
     </Container>
