@@ -2,6 +2,7 @@ package ar.edu.itba.bd2.redmond.subscribers;
 
 import ar.edu.itba.bd2.redmond.model.events.*;
 import ar.edu.itba.bd2.redmond.service.LogService;
+import ar.edu.itba.bd2.redmond.service.MoneyFlowService;
 import ar.edu.itba.bd2.redmond.service.TransactionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,11 +18,17 @@ public class TransactionEventSubscriber {
 
     private final TransactionService transactionService;
     private final LogService logService;
+    private final MoneyFlowService moneyFlowService;
 
     @Autowired
-    public TransactionEventSubscriber(TransactionService transactionService, LogService logService) {
+    public TransactionEventSubscriber(
+            TransactionService transactionService,
+            LogService logService,
+            MoneyFlowService moneyFlowService
+    ) {
         this.transactionService = transactionService;
         this.logService = logService;
+        this.moneyFlowService = moneyFlowService;
     }
 
     @KafkaHandler
@@ -49,6 +56,11 @@ public class TransactionEventSubscriber {
     public void handleCommitTransactionEvent(CommitTransactionEvent e ){
         logger.debug("Commit transaction event id: " + e.getTransactionId());
         logService.logCommitTransactionEvent(e);
+
+        transactionService.findById(e.getTransactionId()).ifPresent(t -> {
+            //noinspection Convert2MethodRef
+            moneyFlowService.addTransactionToGraph(t);
+        });
     }
 
     @KafkaHandler
@@ -56,6 +68,12 @@ public class TransactionEventSubscriber {
         logger.debug("Panic transaction event id: " + e.getTransactionId());
         transactionService.rollbackTransaction(e);
         logService.logPanicTransactionEvent(e);
+    }
+
+    @KafkaHandler
+    public void handleRollbackTransactionEvent(RollbackTransactionEvent e) {
+        logger.info("Rollback transaction event id: " + e.getTransactionId());
+        logService.logRollbackTransactionEvent(e);
     }
 
     @KafkaHandler(isDefault = true)

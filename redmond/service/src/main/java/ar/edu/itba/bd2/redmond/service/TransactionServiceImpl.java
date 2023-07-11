@@ -30,7 +30,6 @@ public class TransactionServiceImpl implements TransactionService {
     private final UserService userService;
     private final TransactionEventDao transactionEventDao;
     private final TransactionDao transactionDao;
-    private final MoneyFlowDao moneyFlowDao;
 
     @Autowired
     public TransactionServiceImpl(
@@ -43,7 +42,6 @@ public class TransactionServiceImpl implements TransactionService {
         this.userService = userService;
         this.transactionEventDao = transactionEventDao;
         this.transactionDao = transactionDao;
-        this.moneyFlowDao = moneyFlowDao;
     }
 
     @Override
@@ -131,12 +129,6 @@ public class TransactionServiceImpl implements TransactionService {
         } catch (Exception ex) {
             LOGGER.info("Error while committing transaction", ex);
             transactionEventDao.panicTransactionEvent(t);
-        }
-
-        try {
-            moneyFlowDao.addTransactionToGraph(t);
-        } catch (Exception ex) {
-            LOGGER.warn("Error commiting to graph", ex);
         }
     }
 

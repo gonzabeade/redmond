@@ -8,4 +8,5 @@ public interface LogDao {
     void logCreditTransaction(Transaction transaction);
     void logCommitTransaction(Transaction transaction);
     void logPanicTransaction(Transaction transaction);
+    void logRollbackTransaction(Transaction transaction);
 }

@@ -8,4 +8,5 @@ public interface LogService {
     void logCreditTransactionEvent(CreditTransactionEvent e);
     void logCommitTransactionEvent(CommitTransactionEvent e);
     void logPanicTransactionEvent(PanicTransactionEvent e);
+    void logRollbackTransactionEvent(RollbackTransactionEvent e);
 }

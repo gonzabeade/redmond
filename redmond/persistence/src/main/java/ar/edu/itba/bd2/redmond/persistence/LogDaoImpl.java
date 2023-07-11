@@ -41,6 +41,11 @@ public class LogDaoImpl implements LogDao {
         logTransactionEvent(transaction, MongoLog.LogType.PANIC_TX);
     }
 
+    @Override
+    public void logRollbackTransaction(Transaction transaction) {
+        logTransactionEvent(transaction, MongoLog.LogType.ROLLBACK_TX);
+    }
+
     private void logTransactionEvent(Transaction transaction, MongoLog.LogType logType) {
         MongoLog mongoTransactionLog = MongoLog.fromTransaction(transaction, logType);
         mongoTemplate.save(mongoTransactionLog, "logs");

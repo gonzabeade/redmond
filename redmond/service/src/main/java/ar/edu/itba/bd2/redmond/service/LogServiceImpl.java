@@ -70,4 +70,14 @@ public class LogServiceImpl implements LogService {
             LOGGER.warn("Error while logging panic transaction event", e1);
         }
     }
+
+    @Override
+    public void logRollbackTransactionEvent(RollbackTransactionEvent e) {
+        try {
+            Transaction t = transactionService.findById(e.getTransactionId()).orElseThrow();
+            logDao.logRollbackTransaction(t);
+        } catch (Exception e1) {
+            LOGGER.warn("Error while logging panic transaction event", e1);
+        }
+    }
 }
