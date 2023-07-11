@@ -106,14 +106,16 @@ services:
     environment:
       NEO4J_AUTH: neo4j/new_password
     volumes:
-      - ./redmond/data:/data
-      - ./redmond/logs:/logs
+      - redmond-neo4j-data:/data
+      - redmond-neo4j-logs:/logs
 
   redmond-elastic:
     image: elasticsearch:7.17.10
     container_name: redmond-elastic
     ports:
       - "9200:9200"
+    volumes:
+      - redmond-elastic-data:/usr/share/elasticsearch/data
     environment:
       - "xpack.security.enabled=false"
       - "discovery.type=single-node"
