@@ -1,6 +1,6 @@
 import { Center, Container, Paper, TextInput, Text, Button, createStyles, Autocomplete, Loader } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePostTransactions } from "../../hooks/api/postTransactions";
 import { useNavigate, useParams } from "../../router";
 import { useSharedAuth } from "../../hooks/auth";
@@ -40,6 +40,8 @@ export default function TransferToId() {
   const {loading: idInputLoading, searchUsers} = useSearchUsers();
   const [idInputValue, setIdInputValue] = useState<string>(id ?? "");
   const [idInputData, setIdInputData] = useState<string[]>([]);
+
+  const hiddenRef = useRef<HTMLInputElement>(null);
 
   const form = useForm({
     initialValues: {
@@ -81,6 +83,7 @@ export default function TransferToId() {
   async function onIdInputChange(value: string) {
     setIdInputValue(value);
     setIdInputData([]);
+    hiddenRef.current!.value = value;
     
     if(value.length == 0) return;
     
@@ -118,7 +121,7 @@ export default function TransferToId() {
             placeholder="their.redmond.id"
             required
           />
-          <input hidden required {...form.getInputProps('destination')} />
+          <input ref={hiddenRef} hidden required {...form.getInputProps('destination')} />
 
           <TextInput label="Amount" placeholder="0.00" required mt={20} {...form.getInputProps('amount')} />
           <TextInput label="Description" placeholder="Optional" mt={20} {...form.getInputProps('description')} />
